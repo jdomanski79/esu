@@ -1,0 +1,2 @@
+# esu
+Ewidencja sprzętu używanego
