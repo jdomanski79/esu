@@ -12,42 +12,42 @@
     <div class="row justify-content-md-center">
         <div class="col-lg-6 col-sm-12">
             <form method="post" th:object="${equipment}">
-                <legend>Podaj dane nowego sprzetu:</legend>
+                <legend th:text="${formTitle}">Podaj dane nowego sprzetu:</legend>
                 <div class="form-group">
                     <label for="state">Stan</label>
                     <select class="form-control" id="state" name="state">
-                        <option th:each="state: ${states}" th:value="${state}" th:text="${state.description}"></option>
+                        <option th:each="state: ${states}" th:selected="${state} == *{state}" th:value="${state}" th:text="${state.description}"></option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="inventory_number">Numer inwentarzowy</label>
-                    <input type="text" class="form-control" id="inventory_number" name="inventoryNumber">
+                    <input type="text" class="form-control" id="inventory_number" name="inventoryNumber" th:value="*{inventoryNumber}">
                 </div>
 
                 <div class="form-group">
                     <label for="name">Nazwa</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" th:value="*{name}">
                 </div>
 
                 <div class="form-group">
                     <label for="serial_number">Nr seryjny</label>
-                    <input type="text" class="form-control" id="serial_number" name="serialNumber">
+                    <input type="text" class="form-control" id="serial_number" name="serialNumber" th:value="*{serialNumber}">
                 </div>
 
                 <div class="form-group form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="is_asset" name="asset">
+                    <input class="form-check-input" type="checkbox" id="is_asset" name="asset" th:checked="*{asset}">
                     <label class="form-check-label" for="is_asset">Srodek trwaly?</label>
                 </div>
 
                 <div class="form-group form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="to_remove" name="toDelete">
-                    <label class="form-check-label" for="to_remove">Do kasacji?</label>
+                    <input class="form-check-input" type="checkbox" id="to_remove" name="toDelete" th:checked="*{toDelete}">
+                    <label class="form-check-label" for="to_remove"> Do kasacji?</label>
                 </div>
 
                 <div class="form-group">
                     <label for="description">Uwagi</label>
-                    <input class="form-control" type="text" id="description" name="description">
+                    <input class="form-control" type="text" id="description" name="description" >
                 </div>
 
                 <button type="submit" class="btn btn-primary">Zapisz</button>

@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -38,8 +39,20 @@ public class EquipmentController {
     }
 
     @GetMapping("/equipment")
-    public String getEquipmentForm(){
-        log.info("Serving getEquipmentForm!");
+    public String getEquipmentForm(Model model,
+                                   @RequestParam(value = "id", required = false) Long id){
+        log.info("getEquipmentForm method. id = {}", id);
+
+        String formTitle;
+        if (id == null){
+            formTitle = "Nowy sprzet";
+        } else {
+            formTitle = "Dane sprzetu";
+            Equipment equipment = repository.findById(id).get();
+            model.addAttribute("equipment", equipment);
+        }
+
+        model.addAttribute("formTitle",formTitle);
         return "equipment.form";
     }
 

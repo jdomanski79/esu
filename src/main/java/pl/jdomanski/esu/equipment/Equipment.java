@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 public class Equipment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String inventoryNumber;
     private String name;
