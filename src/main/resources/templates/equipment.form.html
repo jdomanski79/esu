@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="www.thymeleaf.org ">
+<head th:replace="fragments :: header ('Nowy sprzet')">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dodaj nowy sprzet</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-lg-6 col-sm-12">
+            <form method="post" th:object="${equipment}">
+                <legend>Podaj dane nowego sprzetu:</legend>
+                <div class="form-group">
+                    <label for="state">Stan</label>
+                    <select class="form-control" id="state" name="state">
+                        <option th:each="state: ${states}" th:value="${state}" th:text="${state.description}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="inventory_number">Numer inwentarzowy</label>
+                    <input type="text" class="form-control" id="inventory_number" name="inventoryNumber">
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Nazwa</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="serial_number">Nr seryjny</label>
+                    <input type="text" class="form-control" id="serial_number" name="serialNumber">
+                </div>
+
+                <div class="form-group form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="is_asset" name="asset">
+                    <label class="form-check-label" for="is_asset">Srodek trwaly?</label>
+                </div>
+
+                <div class="form-group form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="to_remove" name="toDelete">
+                    <label class="form-check-label" for="to_remove">Do kasacji?</label>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Uwagi</label>
+                    <input class="form-control" type="text" id="description" name="description">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Zapisz</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
