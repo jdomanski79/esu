@@ -37,13 +37,13 @@
             </thead>
             <tbody>
 
-            <tr>
-                <td>2018-03-29</td>
-                <td>Przyjęcie</td>
-                <td>Flasza</td>
-                <td>Ruda Śląska</td>
-                <td>Lt 2018/2939</td>
-                <td>Domański</td>
+            <tr th:each="event : ${events}">
+                <td th:text="${event.date}">2018-03-29</td>
+                <td th:text="${event.type}">Przyjęcie</td>
+                <td th:text="${event.person}">Flasza</td>
+                <td th:text="${event.place}">Ruda Śląska</td>
+                <td th:text="${event.document}">Lt 2018/2939</td>
+                <td th:text="${event.enteredBy}">Domański</td>
             </tr>
             <tr>
                 <td>2018-11-29</td>
