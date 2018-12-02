@@ -37,13 +37,23 @@ public class EquipmentController {
 
     @GetMapping("/")
     public String equipmentList(Model model){
-        Equipment eq = new Equipment();
-         model.addAttribute("equipments", equipmentRepository.findAll());
-
+        model.addAttribute("equipments", equipmentRepository.findAll());
         return "home";
     }
 
     @GetMapping("/equipment")
+    public String getEquipmentDetails(Model model,
+                                      @RequestParam(value="id") Long id){
+
+        Equipment equipment = equipmentRepository.findById(id).get();
+
+        log.info("getEquipmentDetails for id {}", id);
+        model.addAttribute("equipment", equipment);
+
+        //TODO dodać atrybut "uwagi" - zbudować string z eventu np. Z: Ruda Śl, dostarczył: Ł. Flasza, poprz. nr: blabla
+        return "equipment.view";
+    }
+    @GetMapping("/equipment/new")
     public String getEquipmentForm(Model model,
                                    @RequestParam(value = "id", required = false) Long id){
         log.info("getEquipmentForm method. id = {}", id);
@@ -63,7 +73,7 @@ public class EquipmentController {
         return "equipment.form";
     }
 
-    @PostMapping("/equipment")
+    @PostMapping("/equipment/new")
     public String postEquipmentForm(@Valid Equipment equipment, BindingResult result,
                                     RedirectAttributes redirectAttributes, Model model){
         if (result.hasErrors()){
@@ -73,8 +83,6 @@ public class EquipmentController {
 
         //TODO dodanie uzytkownika do obiektu eqipment
 
-
-
         equipmentRepository.save(equipment);
         log.info("Saved new equipment {}", equipment);
 
@@ -83,10 +91,12 @@ public class EquipmentController {
         event.setEquipment(equipment);
         event.setDate(equipment.getCreated());
         event.setType(EquipmentEventType.RECEPTION);
+        event.setPlace(equipment.getLastOwner());
+        event.setLastInventoryNumber(equipment.getLastInventoryNumber());
 
         equipmentEventRepository.save(event);
         log.info("Saved new event {}", event);
-        log.info("Equpment after saving event {}", equipment);
+        log.info("Equipment after saving event {}", equipment);
 
         return "redirect:/";
     }

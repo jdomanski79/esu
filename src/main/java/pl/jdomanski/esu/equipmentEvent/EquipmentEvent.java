@@ -21,6 +21,7 @@ public class EquipmentEvent {
     private LocalDate date;
     private String person;
     private String place;
+    private String lastInventoryNumber;
     @ManyToOne
     @JoinColumn(name="entered_by")
     private User enteredBy;

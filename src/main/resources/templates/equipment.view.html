@@ -11,10 +11,11 @@
 <body>
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col-sm-12" th:object="${equipment}">
-            <h1 th:text="${name}">Komputer HP Comapq</h1>
-            <h1 th:text="${inventoryNumber}">2018/294</h1>
-            <h2 th:text="${state}">Na stanie</h2>
+        <div class="col-sm-12" >
+            <h1 th:text="${equipment.name}">Komputer HP Comapq</h1>
+            <h1 th:text="${equipment.inventoryNumber}">2018/294</h1>
+            <h2 th:text="${equipment.serialNumber}">Nr seryjny</h2>
+            <h2 th:text="${equipment.state.description}">Na stanie</h2>
         </div>
     </div>
     <div class="row ">
@@ -37,21 +38,13 @@
             </thead>
             <tbody>
 
-            <tr th:each="event : ${events}">
+            <tr th:each="event : ${equipment.history}">
                 <td th:text="${event.date}">2018-03-29</td>
-                <td th:text="${event.type}">Przyjęcie</td>
+                <td th:text="${event.type.description}">Przyjęcie</td>
                 <td th:text="${event.person}">Flasza</td>
                 <td th:text="${event.place}">Ruda Śląska</td>
                 <td th:text="${event.document}">Lt 2018/2939</td>
                 <td th:text="${event.enteredBy}">Domański</td>
-            </tr>
-            <tr>
-                <td>2018-11-29</td>
-                <td>Przerzut</td>
-                <td>Flasza</td>
-                <td>Ruda Śląska</td>
-                <td>Lt 2018/2939</td>
-                <td>Domański</td>
             </tr>
             </tbody>
         </table>
