@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="www.thymeleaf.org ">
+<head th:replace="fragments :: header ('Kartoteka')">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dodaj nowy sprzet</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-sm-12" th:object="${equipment}">
+            <h1 th:text="${name}">Komputer HP Comapq</h1>
+            <h1 th:text="${inventoryNumber}">2018/294</h1>
+            <h2 th:text="${state}">Na stanie</h2>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col">
+            <a class="btn btn-primary btn-sm" href="#">Przerzut</a>
+            <a class="btn btn-primary btn-sm btn-warning" href="#">Kasacja</a>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Data</th>
+                <th>Zdarzenie</th>
+                <th>Kto?</th>
+                <th>Gdzie?</th>
+                <th>Dokument</th>
+                <th>Wprowadził</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td>2018-03-29</td>
+                <td>Przyjęcie</td>
+                <td>Flasza</td>
+                <td>Ruda Śląska</td>
+                <td>Lt 2018/2939</td>
+                <td>Domański</td>
+            </tr>
+            <tr>
+                <td>2018-11-29</td>
+                <td>Przerzut</td>
+                <td>Flasza</td>
+                <td>Ruda Śląska</td>
+                <td>Lt 2018/2939</td>
+                <td>Domański</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
