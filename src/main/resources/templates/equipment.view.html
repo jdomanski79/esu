@@ -11,15 +11,16 @@
 <body>
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col-sm-12" >
-            <h1 th:text="${equipment.name}">Komputer HP Comapq</h1>
-            <h1 th:text="${equipment.inventoryNumber}">2018/294</h1>
-            <h2 th:text="${equipment.serialNumber}">Nr seryjny</h2>
-            <h2 th:text="${equipment.state.description}">Na stanie</h2>
+        <div class="col-sm-12" th:object="${equipment}">
+            <h1 th:text="*{name}">Komputer HP Comapq</h1>
+            <h1 th:text="*{inventoryNumber}">2018/294</h1>
+            <h2 th:text="*{serialNumber}">Nr seryjny</h2>
+            <h2 th:text="*{state.description}">Na stanie</h2>
+            <h4 th:text="'Uwagi: ' + *{note}">Uwagi</h4>
         </div>
     </div>
     <div class="row ">
-        <div class="col">
+        <div class="col" th:if="__">
             <a class="btn btn-primary btn-sm" href="#">Przerzut</a>
             <a class="btn btn-primary btn-sm btn-warning" href="#">Kasacja</a>
         </div>
@@ -30,9 +31,7 @@
             <tr>
                 <th>Data</th>
                 <th>Zdarzenie</th>
-                <th>Kto?</th>
-                <th>Gdzie?</th>
-                <th>Dokument</th>
+                <th>Opis</th>
                 <th>Wprowadził</th>
             </tr>
             </thead>
@@ -41,9 +40,7 @@
             <tr th:each="event : ${equipment.history}">
                 <td th:text="${event.date}">2018-03-29</td>
                 <td th:text="${event.type.description}">Przyjęcie</td>
-                <td th:text="${event.person}">Flasza</td>
-                <td th:text="${event.place}">Ruda Śląska</td>
-                <td th:text="${event.document}">Lt 2018/2939</td>
+                <td th:text="${event.note}"></td>
                 <td th:text="${event.enteredBy}">Domański</td>
             </tr>
             </tbody>

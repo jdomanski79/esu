@@ -3,7 +3,7 @@ values
 (0,false,false,' Kompresor AIRPRESS ','  '),
 (0,false,false,' Monitor Belinea 17"" ',' 2561/307/ '),
 (0,false,false,' Komputer HP Compaq ',' 2388/287 ');
-// /*(0,false,false,' Monitor LG 17"" ',' 1741/215 '),
+ /*(0,false,false,' Monitor LG 17"" ',' 1741/215 '),
 (0,false,false,' Monitor LG Flatron 17"" ',' 2154/261 '),
 (0,false,false,' Monitor Benq 17"" ',' IX-92-29-104 '),
 (0,false,false,' Monitor Belinea 17"" ',' 2556/306 '),

@@ -18,13 +18,11 @@ public class EquipmentEvent {
     @JoinColumn(name="equipment_id")
     private Equipment equipment;
     private EquipmentEventType type;
-    private LocalDate date;
-    private String person;
-    private String place;
-    private String lastInventoryNumber;
     @ManyToOne
     @JoinColumn(name="entered_by")
     private User enteredBy;
-    private String document;
+    private LocalDate date;
+    private String note;
+
 
 }

@@ -31,17 +31,6 @@
                            th:value="*{serialNumber}">
                 </div>
 
-                <div class="form-group">
-                    <label for="last_owner">Skąd przyszło?</label>
-                    <input type="text" class="form-control" id="last_owner" name="lastOwner" th:value="*{lastOwner}">
-                </div>
-
-                <div class="form-group">
-                    <label for="last_inventory_number">Poprzedni numer inwentaryzacyjny</label>
-                    <input type="text" class="form-control" id="last_inventory_number" name="lastInventoryNumber"
-                           th:value="*{lastInventoryNumber}">
-                </div>
-
                 <div class="form-group form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" id="is_asset" name="asset" th:checked="*{asset}">
                     <label class="form-check-label" for="is_asset">Srodek trwaly?</label>
@@ -54,8 +43,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="description">Uwagi</label>
-                    <input class="form-control" type="text" id="description" name="description">
+                    <label for="note">Uwagi</label>
+                    <input class="form-control" type="text" id="note" name="note" th:value="*{note}">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Zapisz</button>

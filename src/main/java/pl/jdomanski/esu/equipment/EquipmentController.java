@@ -91,8 +91,7 @@ public class EquipmentController {
         event.setEquipment(equipment);
         event.setDate(equipment.getCreated());
         event.setType(EquipmentEventType.RECEPTION);
-        event.setPlace(equipment.getLastOwner());
-        event.setLastInventoryNumber(equipment.getLastInventoryNumber());
+        event.setNote(equipment.getNote());
 
         equipmentEventRepository.save(event);
         log.info("Saved new event {}", event);
