@@ -107,6 +107,9 @@ public class EquipmentController {
                                        @RequestParam(value = "equipmentName") String equipmentName,
                                        @RequestParam(value = "equipmentInventoryNumber") String equipmentInventoryNumber) {
 
+        EquipmentEvent equipmentEvent = new EquipmentEvent();
+
+        model.addAttribute("equipmentEvent", equipmentEvent);
         model.addAttribute("equipmentId",equipmentId);
         model.addAttribute("equipmentName", equipmentName);
         model.addAttribute("equipmentInventoryNumber", equipmentInventoryNumber);

@@ -20,8 +20,8 @@
         </div>
     </div>
     <div class="row ">
-        <div class="col" th:if="__">
-            <a class="btn btn-primary btn-sm" href="#">Przerzut</a>
+        <div class="col" th:if="__" th:object="${equipment}">
+            <a class="btn btn-primary btn-sm" href="#" th:href="@{/equipment/transfer(equipmentId=*{id}, equipmentName=*{name}, equipmentInventoryNumber=*{inventoryNumber})}">Przerzut</a>
             <a class="btn btn-primary btn-sm btn-warning" href="#">Kasacja</a>
         </div>
     </div>

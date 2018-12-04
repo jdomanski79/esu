@@ -11,18 +11,21 @@
 <body>
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col-sm-12" th:object="${equipment}">
-            <h2 th:text="*{name}">Komputer HP Comapq</h2>
-            <h2 th:text="*{inventoryNumber}">2018/294</h2>
+        <div class="col-sm-12" >
+            <h2 th:text="${equipmentName}">Komputer HP Comapq</h2>
+            <h2 th:text="${equipmentInventoryNumber}">2018/294</h2>
 
-            <form method="post" th:action="@{/equipment(equipmentId=${equipment.id})" th:object="${equipmentEvent}">
+            <form method="post" th:action="@{/equipment/transfer(equipmentId=${equipmentId})}" th:object="${equipmentEvent}">
                 <legend>Przerzut</legend>
 
                 <div class="form-group">
                     <label for="date">Data</label>
                     <input type="date" class="form-control" id="date" name="date" th:value="*{date}">
                 </div>
+
                 <div class="form-group">
+                    <label for="note">Kto, gdzie?</label>
+                    <input type="text" class="form-control" id="note" name="note" th:value="*{note}">
                 </div>
 
                 <div class="form-group">
