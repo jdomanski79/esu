@@ -11,18 +11,18 @@
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-lg-6 col-sm-12">
-            <form method="post" th:object="${equipment}">
+            <form method="post" th:object="${dto}">
                 <legend th:text="${formTitle}">Podaj dane nowego sprzetu:</legend>
+
+                <div class="form-group">
+                    <label for="name">Nazwa</label>
+                    <input type="text" class="form-control" id="name" name="name" th:value="*{name}">
+                </div>
 
                 <div class="form-group">
                     <label for="inventory_number">Numer inwentarzowy</label>
                     <input type="text" class="form-control" id="inventory_number" name="inventoryNumber"
                            th:value="*{inventoryNumber}">
-                </div>
-
-                <div class="form-group">
-                    <label for="name">Nazwa</label>
-                    <input type="text" class="form-control" id="name" name="name" th:value="*{name}">
                 </div>
 
                 <div class="form-group">
@@ -44,7 +44,7 @@
 
                 <div class="form-group">
                     <label for="note">Uwagi</label>
-                    <input class="form-control" type="text" id="note" name="note" th:value="*{note}">
+                    <textarea class="form-control" rows="5" id="note" name="note" th:value="*{note}"></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Zapisz</button>
