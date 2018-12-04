@@ -22,11 +22,6 @@ public class Equipment {
     @ManyToOne
     @JoinColumn(name="created_by")
     private User createdBy;
-    @ManyToOne
-    @JoinColumn(name = "edited_by")
-    private User editedBy;
-    private LocalDate edited;
-    private String note;
     private EquipmentState state = EquipmentState.IN_STOCK;
     private String serialNumber;
 
