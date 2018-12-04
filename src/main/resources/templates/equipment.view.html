@@ -16,13 +16,12 @@
             <h1 th:text="*{inventoryNumber}">2018/294</h1>
             <h2 th:text="*{serialNumber}">Nr seryjny</h2>
             <h2 th:text="*{state.description}">Na stanie</h2>
-            <h4 th:text="'Uwagi: ' + *{note}">Uwagi</h4>
         </div>
     </div>
     <div class="row ">
-        <div class="col" th:if="__" th:object="${equipment}">
+        <div class="col" th:if="${equipment.state == T(pl.jdomanski.esu.equipment.EquipmentState).IN_STOCK}" th:object="${equipment}">
             <a class="btn btn-primary btn-sm" href="#" th:href="@{/equipment/transfer(equipmentId=*{id}, equipmentName=*{name}, equipmentInventoryNumber=*{inventoryNumber})}">Przerzut</a>
-            <a class="btn btn-primary btn-sm btn-warning" href="#">Kasacja</a>
+            <a class="btn btn-primary btn-sm btn-warning" href="#" th:href="@{/equipment/cassation(id=*{id})}">Kasacja</a>
         </div>
     </div>
     <div class="row">
@@ -32,6 +31,7 @@
                 <th>Data</th>
                 <th>Zdarzenie</th>
                 <th>Opis</th>
+                <th>Dok</th>
                 <th>Wprowadził</th>
             </tr>
             </thead>
@@ -41,6 +41,7 @@
                 <td th:text="${event.date}">2018-03-29</td>
                 <td th:text="${event.type.description}">Przyjęcie</td>
                 <td th:text="${event.note}"></td>
+                <td th:text="${event.document}"></td>
                 <td th:text="${event.enteredBy}">Domański</td>
             </tr>
             </tbody>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.jdomanski.esu.EquipmentDTO;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEvent;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEventRepository;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEventType;
@@ -55,36 +56,37 @@ public class EquipmentController {
     }
 
     @GetMapping("/equipment/new")
-    public String getEquipmentForm(Model model,
-                                   @RequestParam(value = "id", required = false) Long id) {
-        log.info("getEquipmentForm method. id = {}", id);
+    public String getEquipmentForm(Model model) {
 
-        String formTitle;
-        Equipment equipment;
-        if (id == null) {
-            formTitle = "Nowy sprzet";
-            equipment = new Equipment();
-        } else {
-            formTitle = "Dane sprzetu";
-            equipment = equipmentRepository.findById(id).get();
-        }
+        EquipmentDTO dto = new EquipmentDTO();
 
-        model.addAttribute("equipment", equipment);
-        model.addAttribute("formTitle", formTitle);
+        model.addAttribute("dto", dto);
+        model.addAttribute("formTitle", "Podaj dane nowego sprzetu:e");
         return "equipment.form";
     }
 
     @PostMapping("/equipment/new")
-    public String postEquipmentForm(@Valid Equipment equipment, BindingResult result,
+    public String postEquipmentForm(@Valid EquipmentDTO dto, BindingResult result,
                                     RedirectAttributes redirectAttributes, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("equipment", equipment);
+            model.addAttribute("equipmentDTO", dto);
             redirectAttributes.addFlashAttribute("message", "W formularzu sa bledy");
         }
 
         //TODO dodanie uzytkownika do obiektu eqipment
+        //TODO
+
+        Equipment equipment = new Equipment();
+
+        equipment.setName(dto.getName());
+        equipment.setInventoryNumber(dto.getInventoryNumber());
+        equipment.setSerialNumber(dto.getSerialNumber());
+        equipment.setAsset(dto.isAsset());
+        equipment.setToDelete(dto.isToDelete());
+
 
         equipmentRepository.save(equipment);
+
         log.info("Saved new equipment {}", equipment);
 
         EquipmentEvent event = new EquipmentEvent();
@@ -92,7 +94,7 @@ public class EquipmentController {
         event.setEquipment(equipment);
         event.setDate(equipment.getCreated());
         event.setType(EquipmentEventType.RECEPTION);
-        event.setNote(equipment.getNote());
+        event.setNote(dto.getNote());
 
         equipmentEventRepository.save(event);
         log.info("Saved new event {}", event);
@@ -110,11 +112,54 @@ public class EquipmentController {
         EquipmentEvent equipmentEvent = new EquipmentEvent();
 
         model.addAttribute("equipmentEvent", equipmentEvent);
-        model.addAttribute("equipmentId",equipmentId);
+        model.addAttribute("equipmentId", equipmentId);
         model.addAttribute("equipmentName", equipmentName);
         model.addAttribute("equipmentInventoryNumber", equipmentInventoryNumber);
 
         return "equipment.transfer.html";
+
+    }
+
+    @PostMapping("/equipment/transfer")
+    public String postEquipmentTransfer(@Valid EquipmentEvent event, BindingResult result,
+                                        @RequestParam(name = "equipmentId") Long equipmentId) {
+
+        Equipment equipment = equipmentRepository.findById(equipmentId).get();
+        equipment.setState(EquipmentState.TRANSFERED);
+        equipmentRepository.save(equipment);
+
+        event.setType(EquipmentEventType.TRANSFER);
+        event.setEquipment(equipment);
+        equipmentEventRepository.save(event);
+        log.info("Equipment id: {}, new event: {}", equipmentId, event.getType());
+
+        return "redirect:/equipment?id=" + equipmentId;
+    }
+
+    @GetMapping("/equipment/cassation")
+    public String getEquipmentCassation(Model model,
+                                        @RequestParam(name = "id") Long id) {
+
+        model.addAttribute("equipment", equipmentRepository.findById(id).get());
+
+        return "equipment.cassation";
+    }
+
+    @PostMapping("/equipment/cassation")
+    public String postEquipmentCassation(EquipmentEvent event, BindingResult result,
+                                         @RequestParam(name = "id") Long id) {
+
+        Equipment equipment = equipmentRepository.findById(id).get();
+        equipment.setState(EquipmentState.DELETED);
+
+        equipmentRepository.save(equipment);
+
+        event.setType(EquipmentEventType.CASSATION);
+        event.setEquipment(equipment);
+
+        equipmentEventRepository.save(event);
+
+        return "redirect:/equipment?id=" + id;
 
     }
 }

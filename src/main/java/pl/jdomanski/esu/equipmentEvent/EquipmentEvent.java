@@ -21,7 +21,7 @@ public class EquipmentEvent {
     @ManyToOne
     @JoinColumn(name="entered_by")
     private User enteredBy;
-    private LocalDate date;
+    private LocalDate date = LocalDate.now();
     private String document;
     private String note;
 

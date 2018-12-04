@@ -3,7 +3,7 @@ package pl.jdomanski.esu.equipmentEvent;
 public enum EquipmentEventType {
     RECEPTION("Przyjęcie"),
     TRANSFER("Przerzut"),
-    DELETE("Kasacja"),
+    CASSATION("Kasacja"),
     RERECEPTION("Ponowne przyjęcie");
 
     private String description;
