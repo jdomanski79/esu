@@ -22,6 +22,7 @@ public class EquipmentEvent {
     @JoinColumn(name="entered_by")
     private User enteredBy;
     private LocalDate date;
+    private String document;
     private String note;
 
 

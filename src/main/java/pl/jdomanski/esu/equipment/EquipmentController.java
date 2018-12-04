@@ -24,26 +24,26 @@ public class EquipmentController {
     private final EquipmentEventRepository equipmentEventRepository;
 
     @Autowired
-    public EquipmentController(EquipmentRepository equipmentRepository, EquipmentEventRepository equipmentEventRepository ){
+    public EquipmentController(EquipmentRepository equipmentRepository, EquipmentEventRepository equipmentEventRepository) {
         this.equipmentRepository = equipmentRepository;
         this.equipmentEventRepository = equipmentEventRepository;
     }
 
 
     @ModelAttribute
-    public void addStatesToModel(Model model){
+    public void addStatesToModel(Model model) {
         model.addAttribute("states", EquipmentState.values());
     }
 
     @GetMapping("/")
-    public String equipmentList(Model model){
+    public String equipmentList(Model model) {
         model.addAttribute("equipments", equipmentRepository.findAll());
         return "home";
     }
 
     @GetMapping("/equipment")
     public String getEquipmentDetails(Model model,
-                                      @RequestParam(value="id") Long id){
+                                      @RequestParam(value = "id") Long id) {
 
         Equipment equipment = equipmentRepository.findById(id).get();
 
@@ -53,14 +53,15 @@ public class EquipmentController {
         //TODO dodać atrybut "uwagi" - zbudować string z eventu np. Z: Ruda Śl, dostarczył: Ł. Flasza, poprz. nr: blabla
         return "equipment.view";
     }
+
     @GetMapping("/equipment/new")
     public String getEquipmentForm(Model model,
-                                   @RequestParam(value = "id", required = false) Long id){
+                                   @RequestParam(value = "id", required = false) Long id) {
         log.info("getEquipmentForm method. id = {}", id);
 
         String formTitle;
         Equipment equipment;
-        if (id == null){
+        if (id == null) {
             formTitle = "Nowy sprzet";
             equipment = new Equipment();
         } else {
@@ -69,14 +70,14 @@ public class EquipmentController {
         }
 
         model.addAttribute("equipment", equipment);
-        model.addAttribute("formTitle",formTitle);
+        model.addAttribute("formTitle", formTitle);
         return "equipment.form";
     }
 
     @PostMapping("/equipment/new")
     public String postEquipmentForm(@Valid Equipment equipment, BindingResult result,
-                                    RedirectAttributes redirectAttributes, Model model){
-        if (result.hasErrors()){
+                                    RedirectAttributes redirectAttributes, Model model) {
+        if (result.hasErrors()) {
             model.addAttribute("equipment", equipment);
             redirectAttributes.addFlashAttribute("message", "W formularzu sa bledy");
         }
@@ -100,4 +101,17 @@ public class EquipmentController {
         return "redirect:/";
     }
 
+    @GetMapping("/equipment/transfer")
+    public String getEquipmentTransfer(Model model,
+                                       @RequestParam(value = "equipmentId") Long equipmentId,
+                                       @RequestParam(value = "equipmentName") String equipmentName,
+                                       @RequestParam(value = "equipmentInventoryNumber") String equipmentInventoryNumber) {
+
+        model.addAttribute("equipmentId",equipmentId);
+        model.addAttribute("equipmentName", equipmentName);
+        model.addAttribute("equipmentInventoryNumber", equipmentInventoryNumber);
+
+        return "equipment.transfer.html";
+
+    }
 }
