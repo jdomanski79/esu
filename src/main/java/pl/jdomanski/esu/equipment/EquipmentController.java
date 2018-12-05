@@ -2,6 +2,7 @@ package pl.jdomanski.esu.equipment;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import pl.jdomanski.esu.EquipmentDTO;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEvent;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEventRepository;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEventType;
+import pl.jdomanski.esu.user.User;
 
 import javax.validation.Valid;
 
@@ -24,7 +26,6 @@ public class EquipmentController {
     private final EquipmentRepository equipmentRepository;
     private final EquipmentEventRepository equipmentEventRepository;
 
-    @Autowired
     public EquipmentController(EquipmentRepository equipmentRepository, EquipmentEventRepository equipmentEventRepository) {
         this.equipmentRepository = equipmentRepository;
         this.equipmentEventRepository = equipmentEventRepository;
@@ -66,8 +67,11 @@ public class EquipmentController {
     }
 
     @PostMapping("/equipment/new")
-    public String postEquipmentForm(@Valid EquipmentDTO dto, BindingResult result,
-                                    RedirectAttributes redirectAttributes, Model model) {
+    public String postEquipmentForm(@Valid EquipmentDTO dto,
+                                    BindingResult result,
+                                    RedirectAttributes redirectAttributes,
+                                    Model model,
+                                    Authentication authentication) {
         if (result.hasErrors()) {
             model.addAttribute("equipmentDTO", dto);
             redirectAttributes.addFlashAttribute("message", "W formularzu sa bledy");
@@ -76,6 +80,8 @@ public class EquipmentController {
         //TODO dodanie uzytkownika do obiektu eqipment
         //TODO
 
+        User user = (User) authentication.getPrincipal();
+
         Equipment equipment = new Equipment();
 
         equipment.setName(dto.getName());
@@ -83,7 +89,7 @@ public class EquipmentController {
         equipment.setSerialNumber(dto.getSerialNumber());
         equipment.setAsset(dto.isAsset());
         equipment.setToDelete(dto.isToDelete());
-
+        equipment.setCreatedBy(user);
 
         equipmentRepository.save(equipment);
 
@@ -95,6 +101,7 @@ public class EquipmentController {
         event.setDate(equipment.getCreated());
         event.setType(EquipmentEventType.RECEPTION);
         event.setNote(dto.getNote());
+        event.setEnteredBy(user);
 
         equipmentEventRepository.save(event);
         log.info("Saved new event {}", event);
@@ -122,7 +129,8 @@ public class EquipmentController {
 
     @PostMapping("/equipment/transfer")
     public String postEquipmentTransfer(@Valid EquipmentEvent event, BindingResult result,
-                                        @RequestParam(name = "equipmentId") Long equipmentId) {
+                                        @RequestParam(name = "equipmentId") Long equipmentId,
+                                        Authentication authentication) {
 
         Equipment equipment = equipmentRepository.findById(equipmentId).get();
         equipment.setState(EquipmentState.TRANSFERED);
@@ -130,6 +138,7 @@ public class EquipmentController {
 
         event.setType(EquipmentEventType.TRANSFER);
         event.setEquipment(equipment);
+        event.setEnteredBy((User) authentication.getPrincipal());
         equipmentEventRepository.save(event);
         log.info("Equipment id: {}, new event: {}", equipmentId, event.getType());
 
@@ -147,7 +156,8 @@ public class EquipmentController {
 
     @PostMapping("/equipment/cassation")
     public String postEquipmentCassation(EquipmentEvent event, BindingResult result,
-                                         @RequestParam(name = "id") Long id) {
+                                         @RequestParam(name = "id") Long id,
+                                         Authentication authentication) {
 
         Equipment equipment = equipmentRepository.findById(id).get();
         equipment.setState(EquipmentState.DELETED);
@@ -156,6 +166,7 @@ public class EquipmentController {
 
         event.setType(EquipmentEventType.CASSATION);
         event.setEquipment(equipment);
+        event.setEnteredBy((User) authentication.getPrincipal());
 
         equipmentEventRepository.save(event);
 
