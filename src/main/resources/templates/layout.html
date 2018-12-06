@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head layout:fragment="header (title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">Tytul strony</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Permanent+Marker">
+</head>
+<body>
+<div class="container">
+    <!--HEADER-->
+    <header class="row">
+        <div class="col">
+            <header><h3><a href="/" class="badge badge-info">esu</a></h3></header>
+            <hr>
+        </div>
+    </header>
+    <!--HEADER-->
+
+    <main class="row" layout:fragment="content">
+        Main content
+    </main>
+
+    <footer class="row">
+        <div class="col">
+            <p>&copyJD 2018</p>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
