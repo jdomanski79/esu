@@ -76,9 +76,6 @@ public class EquipmentController {
             redirectAttributes.addFlashAttribute("message", "W formularzu sa bledy");
         }
 
-        //TODO dodanie uzytkownika do obiektu eqipment
-        //TODO
-
         User user = (User) authentication.getPrincipal();
 
         Equipment equipment = new Equipment();
@@ -94,8 +91,9 @@ public class EquipmentController {
 
         log.info("Saved new equipment {}", equipment);
 
-        EquipmentEvent event = new EquipmentEvent(equipment);
+        EquipmentEvent event = new EquipmentEvent();
 
+        event.setEquipmentWithEquipmentState(equipment);
         event.setDate(equipment.getCreated());
         event.setNote(dto.getNote());
         event.setEnteredBy(user);
@@ -109,16 +107,14 @@ public class EquipmentController {
 
     @GetMapping("/equipment/transfer")
     public String getEquipmentTransfer(Model model,
-                                       @RequestParam(value = "equipmentId") Long equipmentId,
-                                       @RequestParam(value = "equipmentName") String equipmentName,
-                                       @RequestParam(value = "equipmentInventoryNumber") String equipmentInventoryNumber) {
+                                       @RequestParam(value = "id") Long id) {
+
+        Equipment equipment = equipmentRepository.findById(id).get();
 
         EquipmentEvent equipmentEvent = new EquipmentEvent();
 
+        model.addAttribute("equipment", equipment);
         model.addAttribute("equipmentEvent", equipmentEvent);
-        model.addAttribute("equipmentId", equipmentId);
-        model.addAttribute("equipmentName", equipmentName);
-        model.addAttribute("equipmentInventoryNumber", equipmentInventoryNumber);
 
         return "equipment.transfer.html";
 
@@ -126,15 +122,14 @@ public class EquipmentController {
 
     @PostMapping("/equipment/transfer")
     public String postEquipmentTransfer(@Valid EquipmentEvent event, BindingResult result,
-                                        @RequestParam(name = "equipmentId") Long equipmentId,
+                                        @RequestParam(name = "id") Long equipmentId,
                                         Authentication authentication) {
 
         Equipment equipment = equipmentRepository.findById(equipmentId).get();
         equipment.setState(EquipmentState.TRANSFERED);
         equipmentRepository.save(equipment);
 
-        event.setEquipmentState(EquipmentState.TRANSFERED);
-        event.setEquipment(equipment);
+        event.setEquipmentWithEquipmentState(equipment);
         event.setEnteredBy((User) authentication.getPrincipal());
         equipmentEventRepository.save(event);
         log.info("Equipment id: {}, new event: {}", equipmentId, event.getEquipmentState().getEventDescription());

@@ -25,12 +25,9 @@ public class EquipmentEvent {
     private String document;
     private String note;
 
-    public EquipmentEvent(Equipment equipment) {
+
+    public void setEquipmentWithEquipmentState(Equipment equipment){
         this.equipment = equipment;
         this.equipmentState = equipment.getState();
     }
-
-    public EquipmentEvent(){
-    };
-
 }
