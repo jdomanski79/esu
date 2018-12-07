@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="equip : ${equipments}" th:object="${equip}" th:onclick="'window.location.href=\'/equipment?id=' + ${equip.id} + '\';'">
-                    <td th:text="*{state.description}">Stan</td>
+                    <td th:text="*{state.stateDescription}">Stan</td>
                     <td th:text="*{inventoryNumber}">Numer inwentarzowy</td>
                     <td th:text="*{name}">Nazwa</td>
                     <td th:text="*{asset}">Srodek trwaly</td>

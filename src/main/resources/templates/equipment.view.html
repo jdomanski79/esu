@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="www.thymeleaf.org ">
 <head th:replace="fragments :: header ('Kartoteka')">
     <meta charset="UTF-8">
@@ -15,11 +15,11 @@
             <h1 th:text="*{name}">Komputer HP Comapq</h1>
             <h1 th:text="*{inventoryNumber}">2018/294</h1>
             <h2 th:text="*{serialNumber}">Nr seryjny</h2>
-            <h2 th:text="*{state.description}">Na stanie</h2>
+            <h2 th:text="*{state.stateDescription}">Na stanie</h2>
         </div>
     </div>
     <div class="row ">
-        <div class="col" th:if="${equipment.state == T(pl.jdomanski.esu.equipment.EquipmentState).IN_STOCK}" th:object="${equipment}">
+        <div class="col" th:if="${equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).IN_STOCK}" th:object="${equipment}">
             <a class="btn btn-primary btn-sm" href="#" th:href="@{/equipment/transfer(equipmentId=*{id}, equipmentName=*{name}, equipmentInventoryNumber=*{inventoryNumber})}">Przerzut</a>
             <a class="btn btn-primary btn-sm btn-warning" href="#" th:href="@{/equipment/cassation(id=*{id})}">Kasacja</a>
         </div>
@@ -39,7 +39,7 @@
 
             <tr th:each="event : ${equipment.history}">
                 <td th:text="${event.date}">2018-03-29</td>
-                <td th:text="${event.type.description}">Przyjęcie</td>
+                <td th:text="${event.equipmentState.eventDescription}">Przyjęcie</td>
                 <td th:text="${event.note}"></td>
                 <td th:text="${event.document}"></td>
                 <td th:text="${event.enteredBy.name}">Domański</td>
