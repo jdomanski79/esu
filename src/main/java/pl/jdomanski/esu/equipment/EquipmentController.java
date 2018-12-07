@@ -1,7 +1,6 @@
 package pl.jdomanski.esu.equipment;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.jdomanski.esu.EquipmentDTO;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEvent;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEventRepository;
-import pl.jdomanski.esu.equipmentEvent.EquipmentEventType;
+import pl.jdomanski.esu.equipmentEvent.EquipmentState;
 import pl.jdomanski.esu.user.User;
 
 import javax.validation.Valid;
@@ -95,11 +94,9 @@ public class EquipmentController {
 
         log.info("Saved new equipment {}", equipment);
 
-        EquipmentEvent event = new EquipmentEvent();
+        EquipmentEvent event = new EquipmentEvent(equipment);
 
-        event.setEquipment(equipment);
         event.setDate(equipment.getCreated());
-        event.setType(EquipmentEventType.RECEPTION);
         event.setNote(dto.getNote());
         event.setEnteredBy(user);
 
@@ -136,26 +133,26 @@ public class EquipmentController {
         equipment.setState(EquipmentState.TRANSFERED);
         equipmentRepository.save(equipment);
 
-        event.setType(EquipmentEventType.TRANSFER);
+        event.setEquipmentState(EquipmentState.TRANSFERED);
         event.setEquipment(equipment);
         event.setEnteredBy((User) authentication.getPrincipal());
         equipmentEventRepository.save(event);
-        log.info("Equipment id: {}, new event: {}", equipmentId, event.getType());
+        log.info("Equipment id: {}, new event: {}", equipmentId, event.getEquipmentState().getEventDescription());
 
         return "redirect:/equipment?id=" + equipmentId;
     }
 
-    @GetMapping("/equipment/cassation")
-    public String getEquipmentCassation(Model model,
+    @GetMapping("/equipment/delete")
+    public String getEquipmentDelete(Model model,
                                         @RequestParam(name = "id") Long id) {
 
         model.addAttribute("equipment", equipmentRepository.findById(id).get());
 
-        return "equipment.cassation";
+        return "equipment.delete";
     }
 
-    @PostMapping("/equipment/cassation")
-    public String postEquipmentCassation(EquipmentEvent event, BindingResult result,
+    @PostMapping("/equipment/delete")
+    public String postEquipmentDelete(EquipmentEvent event, BindingResult result,
                                          @RequestParam(name = "id") Long id,
                                          Authentication authentication) {
 
@@ -164,7 +161,7 @@ public class EquipmentController {
 
         equipmentRepository.save(equipment);
 
-        event.setType(EquipmentEventType.CASSATION);
+        event.setEquipmentState(EquipmentState.DELETED);
         event.setEquipment(equipment);
         event.setEnteredBy((User) authentication.getPrincipal());
 

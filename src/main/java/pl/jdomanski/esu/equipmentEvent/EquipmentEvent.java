@@ -17,7 +17,7 @@ public class EquipmentEvent {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="equipment_id")
     private Equipment equipment;
-    private EquipmentEventType type;
+    private EquipmentState equipmentState;
     @ManyToOne
     @JoinColumn(name="entered_by")
     private User enteredBy;
@@ -25,5 +25,12 @@ public class EquipmentEvent {
     private String document;
     private String note;
 
+    public EquipmentEvent(Equipment equipment) {
+        this.equipment = equipment;
+        this.equipmentState = equipment.getState();
+    }
+
+    public EquipmentEvent(){
+    };
 
 }

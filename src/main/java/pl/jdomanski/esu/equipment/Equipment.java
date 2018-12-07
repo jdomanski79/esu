@@ -2,6 +2,7 @@ package pl.jdomanski.esu.equipment;
 
 import lombok.Data;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEvent;
+import pl.jdomanski.esu.equipmentEvent.EquipmentState;
 import pl.jdomanski.esu.user.User;
 
 import javax.persistence.*;
