@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="www.thymeleaf.org ">
-<head th:replace="fragments :: header ('Kasacja')">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head layout:fragment="header ('Kasacja')">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dodaj nowy sprzet</title>
@@ -10,13 +10,13 @@
 </head>
 <body>
 <div class="container">
-    <div class="row justify-content-md-center">
+    <div layout:fragment="content" class="row justify-content-md-center">
         <div class="col-sm-12" th:object="${equipment}">
             <h1>Kasacja</h1>
             <h3 th:text="*{name}">Komputer HP Comapq</h3>
             <h3 th:text="*{inventoryNumber}">2018/294</h3>
             <h3 th:text="*{serialNumber}">Nr seryjny</h3>
-            <h3 th:text="*{state.description}">Na stanie</h3>
+            <h3 th:text="*{state.stateDescription}">Na stanie</h3>
 
             <form method="post" th:action="@{/equipment/cassation(id=${equipment.id})}">
                 <div class="form-group">
