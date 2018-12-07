@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout}">
+      layout:decorate="~{layout}">
 <head th:replace="fragments :: header('EWU')">
     <meta charset="UTF-8">
     <title>Sprzet uzywany</title>
     <link rel="stylesheet" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="row" layout:fragment="content">
-        <div class="col-sm-12">
+<div class="row" layout:fragment="content">
+    <div class="col-sm-12">
+        <p>
             <a class="btn btn-primary btn-sm" href="/equipment/new">Dodaj</a>
-            <br>
-            <table class="table table-bordered table-striped table-hover table-responsive-md">
-                <thead>
-                <tr>
-                    <th>Stan</th>
-                    <th>Numer</th>
-                    <th>Nazwa</th>
-                    <th>Srodek trwaly?</th>
-                    <th>Do kasacji?</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="equip : ${equipments}" th:object="${equip}" th:onclick="'window.location.href=\'/equipment?id=' + ${equip.id} + '\';'">
-                    <td th:text="*{state.stateDescription}">Stan</td>
-                    <td th:text="*{inventoryNumber}">Numer inwentarzowy</td>
-                    <td th:text="*{name}">Nazwa</td>
-                    <td th:text="*{asset}">Srodek trwaly</td>
-                    <td th:text="*{toDelete}">Do kasacji?</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        </p>
+        <table class="table table-bordered table-striped table-hover table-responsive-md">
+            <thead>
+            <tr>
+                <th>Stan</th>
+                <th>Numer</th>
+                <th>Nazwa</th>
+                <th>Srodek trwaly?</th>
+                <th>Do kasacji?</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="equip : ${equipments}" th:object="${equip}"
+                th:onclick="'window.location.href=\'/equipment?id=' + ${equip.id} + '\';'">
+                <td th:text="*{state.stateDescription}">Stan</td>
+                <td th:text="*{inventoryNumber}">Numer inwentarzowy</td>
+                <td th:text="*{name}">Nazwa</td>
+                <td th:text="*{asset}">Srodek trwaly</td>
+                <td th:text="*{toDelete}">Do kasacji?</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+</div>
 <!--containeer -->
 </body>
 </html>
