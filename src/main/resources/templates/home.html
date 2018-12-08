@@ -12,6 +12,9 @@
         <p>
             <a class="btn btn-primary btn-sm" href="/equipment/new">Dodaj</a>
         </p>
+        <p th:text="${'Stan: ' + {inStock} + ' pozycji. W tym wypozyczonych: ' + {lended} + '.'}">
+            Stan
+        </p>
         <table class="table table-bordered table-striped table-hover table-responsive-md">
             <thead>
             <tr>

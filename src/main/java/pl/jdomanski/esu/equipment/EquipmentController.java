@@ -38,7 +38,14 @@ public class EquipmentController {
 
     @GetMapping("/")
     public String equipmentList(Model model) {
+
+        Long lended = equipmentRepository.countByState(EquipmentState.LENDED);
+        Long inStock = lended + equipmentRepository.countByState(EquipmentState.IN_STOCK);
+
+        model.addAttribute("inStock", inStock);
+        model.addAttribute("lended", lended);
         model.addAttribute("equipments", equipmentRepository.findAll());
+
         return "home";
     }
 
