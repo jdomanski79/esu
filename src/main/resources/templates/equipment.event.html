@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>przenies</title>
+    <title th:text="${event.equipmentState.eventDescription}">Wydarzenie</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
@@ -15,8 +15,8 @@
             <h2 th:text="${equipment.name}">Komputer HP Comapq</h2>
             <h2 th:text="${equipment.inventoryNumber}">2018/294</h2>
 
-            <form method="post" th:action="@{/equipment/transfer(id=${equipment.id})}" th:object="${equipmentEvent}">
-                <legend>Przerzut</legend>
+            <form method="post" th:action="@{/equipment/newevent(equipmentid=${equipment.id}, action=${event.equipmentState})}" th:object="${event}">
+                <legend th:text="*{equipmentState.getEventDescription()}"></legend>
 
                 <div class="form-group">
                     <label for="date">Data</label>
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="note">Kto, gdzie?</label>
+                    <label for="note">Uwagi</label>
                     <input type="text" class="form-control" id="note" name="note" th:value="*{note}">
                 </div>
 
@@ -33,10 +33,11 @@
                     <input type="text" class="form-control" id="document" name="document" th:value="*{document}">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Zapisz</button>
+                <button class="btn btn-sm btn-primary" type="submit" >Zatwiedz</button>
             </form>
 
         </div>
     </div>
+</div>
 </body>
 </html>

@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe().key("FDJKLFDJK").userDetailsService(userDetailsService)
                 .and()
-                .csrf().disable();
+                .csrf().disable()
+                .headers().frameOptions().disable();
     }
 
     @Override

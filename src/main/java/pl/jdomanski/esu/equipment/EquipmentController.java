@@ -105,64 +105,43 @@ public class EquipmentController {
         return "redirect:/";
     }
 
-    @GetMapping("/equipment/transfer")
-    public String getEquipmentTransfer(Model model,
-                                       @RequestParam(value = "id") Long id) {
+    @GetMapping("/equipment/newevent")
+    public String getNewEvent(Model model,
+                              @RequestParam(value = "equipmentid") Long id,
+                              @RequestParam(value = "action") EquipmentState action) {
+
+        EquipmentEvent event = new EquipmentEvent();
+        event.setEquipmentState(action);
 
         Equipment equipment = equipmentRepository.findById(id).get();
 
-        EquipmentEvent equipmentEvent = new EquipmentEvent();
-
         model.addAttribute("equipment", equipment);
-        model.addAttribute("equipmentEvent", equipmentEvent);
+        model.addAttribute("event", event);
 
-        return "equipment.transfer.html";
+        return "equipment.event";
+
 
     }
 
-    @PostMapping("/equipment/transfer")
-    public String postEquipmentTransfer(@Valid EquipmentEvent event, BindingResult result,
-                                        @RequestParam(name = "id") Long equipmentId,
-                                        Authentication authentication) {
+    @PostMapping("/equipment/newevent")
+    public String postNewEvent(@ModelAttribute EquipmentEvent event,
+                               BindingResult result,
+                               @RequestParam(value = "equipmentid") Long id,
+                               @RequestParam(value = "action") EquipmentState action,
+                               Authentication authentication) {
 
-        Equipment equipment = equipmentRepository.findById(equipmentId).get();
-        equipment.setState(EquipmentState.TRANSFERED);
+        Equipment equipment = equipmentRepository.findById(id).get();
+        equipment.setState(action);
+
         equipmentRepository.save(equipment);
 
         event.setEquipmentWithEquipmentState(equipment);
-        event.setEnteredBy((User) authentication.getPrincipal());
-        equipmentEventRepository.save(event);
-        log.info("Equipment id: {}, new event: {}", equipmentId, event.getEquipmentState().getEventDescription());
 
-        return "redirect:/equipment?id=" + equipmentId;
-    }
-
-    @GetMapping("/equipment/delete")
-    public String getEquipmentDelete(Model model,
-                                        @RequestParam(name = "id") Long id) {
-
-        model.addAttribute("equipment", equipmentRepository.findById(id).get());
-
-        return "equipment.delete";
-    }
-
-    @PostMapping("/equipment/delete")
-    public String postEquipmentDelete(EquipmentEvent event, BindingResult result,
-                                         @RequestParam(name = "id") Long id,
-                                         Authentication authentication) {
-
-        Equipment equipment = equipmentRepository.findById(id).get();
-        equipment.setState(EquipmentState.DELETED);
-
-        equipmentRepository.save(equipment);
-
-        event.setEquipmentState(EquipmentState.DELETED);
-        event.setEquipment(equipment);
-        event.setEnteredBy((User) authentication.getPrincipal());
+        User enteredBy = (User) authentication.getPrincipal();
+        event.setEnteredBy(enteredBy);
 
         equipmentEventRepository.save(event);
 
         return "redirect:/equipment?id=" + id;
-
     }
 }
