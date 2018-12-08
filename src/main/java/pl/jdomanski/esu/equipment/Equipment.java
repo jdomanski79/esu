@@ -27,5 +27,6 @@ public class Equipment {
     private String serialNumber;
 
     @OneToMany(mappedBy="equipment")
+    @OrderBy("timestamp DESC")
     private List<EquipmentEvent> history;
 }

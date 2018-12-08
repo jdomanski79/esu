@@ -6,6 +6,7 @@ import pl.jdomanski.esu.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -22,6 +23,7 @@ public class EquipmentEvent {
     @JoinColumn(name="entered_by")
     private User enteredBy;
     private LocalDate date = LocalDate.now();
+    private LocalDateTime timestamp = LocalDateTime.now();
     private String document;
     private String note;
 
