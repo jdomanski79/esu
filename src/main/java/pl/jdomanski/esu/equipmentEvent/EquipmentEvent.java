@@ -32,4 +32,18 @@ public class EquipmentEvent {
         this.equipment = equipment;
         this.equipmentState = equipment.getState();
     }
+
+    @Override
+    public String toString() {
+        return "EquipmentEvent{" +
+                "id=" + id +
+                ", equipmentID=" + equipment.getId() +
+                ", equipmentState=" + equipmentState +
+                ", enteredBy(Name)=" + enteredBy.getName() +
+                ", date=" + date +
+                ", timestamp=" + timestamp +
+                ", document='" + document + '\'' +
+                ", note='" + note + '\'' +
+                '}';
+    }
 }
