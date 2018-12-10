@@ -68,7 +68,7 @@ public class EquipmentController {
         EquipmentDTO dto = new EquipmentDTO();
 
         model.addAttribute("dto", dto);
-        model.addAttribute("formTitle", "Podaj dane nowego sprzetu:e");
+        model.addAttribute("formTitle", "Podaj dane nowego sprzetu: ");
         return "equipment.form";
     }
 
