@@ -87,6 +87,7 @@ public class EquipmentController {
 
         Equipment equipment = new Equipment();
 
+        equipment.setCreated(dto.getDate());
         equipment.setName(dto.getName());
         equipment.setInventoryNumber(dto.getInventoryNumber());
         equipment.setSerialNumber(dto.getSerialNumber());

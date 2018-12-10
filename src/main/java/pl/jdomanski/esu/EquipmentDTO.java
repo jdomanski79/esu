@@ -1,12 +1,16 @@
 package pl.jdomanski.esu;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Data
 public class EquipmentDTO {
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date = LocalDate.now();
     private String name;
     private String inventoryNumber;
     @Size(min=1)
