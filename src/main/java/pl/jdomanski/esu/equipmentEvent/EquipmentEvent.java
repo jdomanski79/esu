@@ -1,6 +1,7 @@
 package pl.jdomanski.esu.equipmentEvent;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import pl.jdomanski.esu.equipment.Equipment;
 import pl.jdomanski.esu.user.User;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Slf4j
 public class EquipmentEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,4 +48,9 @@ public class EquipmentEvent {
                 ", note='" + note + '\'' +
                 '}';
     }
+
+    public EquipmentEvent(){
+        log.info("New equipment event constructed");
+    }
+
 }

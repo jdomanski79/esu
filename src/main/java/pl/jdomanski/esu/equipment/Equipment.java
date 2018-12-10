@@ -1,6 +1,7 @@
 package pl.jdomanski.esu.equipment;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEvent;
 import pl.jdomanski.esu.equipmentEvent.EquipmentState;
 import pl.jdomanski.esu.user.User;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Slf4j
 public class Equipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +31,8 @@ public class Equipment {
     @OneToMany(mappedBy="equipment")
     @OrderBy("timestamp DESC")
     private List<EquipmentEvent> history;
+
+    public Equipment(){
+        log.info("New equipment constructed");
+    }
 }
