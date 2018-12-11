@@ -2,7 +2,9 @@ package pl.jdomanski.esu;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.jdomanski.esu.equipment.Equipment;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -12,8 +14,8 @@ public class EquipmentDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date = LocalDate.now();
     private String name;
+    @NotNull
     private String inventoryNumber;
-    @Size(min=1)
     private String serialNumber;
     private boolean asset;
     private boolean toDelete;
@@ -34,5 +36,14 @@ public class EquipmentDTO {
 
     public void setNote(String note) {
         this.note = note.trim();
+    }
+
+    public void copyPropertiesFrom(Equipment equipment) {
+        this.date = equipment.getCreated();
+        this.name = equipment.getName();
+        this.inventoryNumber = equipment.getInventoryNumber();
+        this.serialNumber = equipment.getSerialNumber();
+        this.asset = equipment.isAsset();
+        this.toDelete = equipment.isToDelete();
     }
 }

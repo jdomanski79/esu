@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.jdomanski.esu.EquipmentDTO;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEvent;
 import pl.jdomanski.esu.equipmentEvent.EquipmentEventRepository;
@@ -17,6 +16,7 @@ import pl.jdomanski.esu.equipmentEvent.EquipmentState;
 import pl.jdomanski.esu.user.User;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -62,30 +62,40 @@ public class EquipmentController {
         return "equipment.view";
     }
 
-    @GetMapping("/equipment/new")
-    public String getEquipmentForm(Model model) {
+    @GetMapping("/equipment/edit")
+    public String getEquipmentForm(@RequestParam(name = "id", required = false, defaultValue = "-1") Long id,
+                                   Model model) {
 
-        log.info("Preparing form to display");
+        Optional optionalEquipment = equipmentRepository.findById(id);
         EquipmentDTO dto = new EquipmentDTO();
 
+        if(optionalEquipment.isPresent()){
+            Equipment equipment = (Equipment) optionalEquipment.get();
+            dto.copyPropertiesFrom(equipment);
+        }
+
         model.addAttribute("dto", dto);
-        model.addAttribute("formTitle", "Podaj dane nowego sprzetu: ");
         return "equipment.form";
     }
 
-    @PostMapping("/equipment/new")
+    @PostMapping("/equipment/edit")
     public String postEquipmentForm(@Valid @ModelAttribute("dto") EquipmentDTO dto,
                                     BindingResult result,
-                                    Model model,
+                                    @RequestParam(name = "id", required = false, defaultValue = "-1") Long id,
                                     Authentication authentication) {
         if (result.hasErrors()) {
             log.info("Errors in form");
             return "equipment.form";
         }
 
-        User user = (User) authentication.getPrincipal();
+        Equipment equipment;
+        Optional optionalEquipment = equipmentRepository.findById(id);
 
-        Equipment equipment = new Equipment();
+        if (optionalEquipment.isPresent()){
+            equipment = (Equipment) optionalEquipment.get();
+        } else {
+            equipment = new Equipment();
+        }
 
         equipment.setCreated(dto.getDate());
         equipment.setName(dto.getName());
@@ -93,10 +103,16 @@ public class EquipmentController {
         equipment.setSerialNumber(dto.getSerialNumber());
         equipment.setAsset(dto.isAsset());
         equipment.setToDelete(dto.isToDelete());
+
+        User user = (User) authentication.getPrincipal();
         equipment.setCreatedBy(user);
 
         equipmentRepository.save(equipment);
 
+        if (optionalEquipment.isPresent()){
+            log.info("Edited equipment - redirecting");
+            return "redirect:/";
+        }
         log.info("Saved new equipment {}", equipment);
 
         EquipmentEvent event = new EquipmentEvent();
