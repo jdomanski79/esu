@@ -12,10 +12,11 @@
 <div class="container">
     <div layout:fragment="content" class="row justify-content-md-center">
         <div class="col-sm-12">
-            <h2 th:text="${equipment.name}">Komputer HP Comapq</h2>
-            <h2 th:text="${equipment.inventoryNumber}">2018/294</h2>
-            <form method="post" th:action="@{__${T(pl.jdomanski.esu.utils.Mappings).EVENT_EDIT}__(id=${dto.id})}" th:object="${dto}">
-                <legend th:text="*{state.eventDescription}"></legend>
+            <h2 th:text="${dto.equipmentName}">Komputer HP Comapq</h2>
+            <h2 th:text="${dto.equipmentInventoryNumber}">2018/294</h2>
+            <form method="post" th:action="@{__${T(pl.jdomanski.esu.utils.Mappings).EVENT_EDIT}__(id=${dto.id})}"
+                  th:object="${dto}">
+                <legend th:text="*{eventDescription}"></legend>
 
                 <div class="form-group">
                     <label for="date">Data</label>
@@ -32,7 +33,15 @@
                     <input type="text" class="form-control" id="document" name="document" th:value="*{document}">
                 </div>
 
-                <button class="btn btn-sm btn-primary" type="submit" >Zatwiedz</button>
+                <input type="hidden" name="id" th:value="${dto.id}">
+                <input type="hidden" name="equipmentName" th:value="${dto.equipmentName}"/>
+                <input type="hidden" name="equipmentInventoryNumber" th:value="${dto.equipmentInventoryNumber}"/>
+
+                <button class="btn btn-sm btn-primary" type="submit">Zatwiedz</button>
+
+                <ul th:if="${#fields.hasErrors()}">
+                    <li th:each="err: ${#fields.errors()}" th:text="${err}"></li>
+                </ul>
             </form>
 
         </div>

@@ -50,7 +50,6 @@ equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).LENDED}">
             <tr>
                 <th>Data</th>
                 <th>Zdarzenie</th>
-                <th>Opis</th>
                 <th>Dok</th>
                 <th>Wprowadził</th>
                 <th></th>
@@ -60,8 +59,10 @@ equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).LENDED}">
 
             <tr th:each="event : ${equipment.history}">
                 <td th:text="${event.date}" class="text-center">2018-03-29</td>
-                <td th:text="${event.equipmentState.eventDescription}">Przyjęcie</td>
-                <td th:text="${event.note}"></td>
+                <td>
+                    <span><strong th:text="${event.equipmentState.eventDescription}">Przyjęcie</strong></span>
+                    <span th:if="${event.note}" th:utext="'<br>' + ${event.note}">Notka</span>
+                </td>
                 <td th:text="${event.document}"></td>
                 <td th:text="${event.enteredBy.name}" class="text-center">Domański</td>
                 <td><a th:href="@{/event(id=${event.id})}" class="btn btn-sm btn-primary">Edytuj</a></td>

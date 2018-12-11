@@ -65,6 +65,7 @@ public class EquipmentController {
     @GetMapping("/equipment/new")
     public String getEquipmentForm(Model model) {
 
+        log.info("Preparing form to display");
         EquipmentDTO dto = new EquipmentDTO();
 
         model.addAttribute("dto", dto);
@@ -73,14 +74,13 @@ public class EquipmentController {
     }
 
     @PostMapping("/equipment/new")
-    public String postEquipmentForm(@Valid EquipmentDTO dto,
+    public String postEquipmentForm(@Valid @ModelAttribute("dto") EquipmentDTO dto,
                                     BindingResult result,
-                                    RedirectAttributes redirectAttributes,
                                     Model model,
                                     Authentication authentication) {
         if (result.hasErrors()) {
-            model.addAttribute("equipmentDTO", dto);
-            redirectAttributes.addFlashAttribute("message", "W formularzu sa bledy");
+            log.info("Errors in form");
+            return "equipment.form";
         }
 
         User user = (User) authentication.getPrincipal();

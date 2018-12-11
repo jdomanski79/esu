@@ -3,6 +3,7 @@ package pl.jdomanski.esu.equipmentEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,17 +21,16 @@ public class EquipmentEventController {
     private final EquipmentEventRepository eventRepository;
 
     @Autowired
-    EquipmentEventController(EquipmentEventRepository eventRepository){
+    EquipmentEventController(EquipmentEventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
 
     @GetMapping(Mappings.EVENT_EDIT)
-    public ModelAndView getEventEdit(@RequestParam(name="id") Long id){
+    public ModelAndView getEventEdit(@RequestParam(name = "id") Long id) {
         EquipmentEvent event = eventRepository.findById(id).get();
         EquipmentEventDTO dto = new EquipmentEventDTO(event);
 
-        ModelAndView modelAndView = new ModelAndView("event.edit","dto",dto);
-        modelAndView.addObject("equipment", event.getEquipment());
+        ModelAndView modelAndView = new ModelAndView("event.edit", "dto", dto);
 
         log.info("Editing event: id {}, type {} for equipment id {}",
                 event.getId(), event.getEquipmentState(), event.getEquipment().getId());
@@ -39,8 +39,14 @@ public class EquipmentEventController {
     }
 
     @PostMapping(Mappings.EVENT_EDIT)
-    public String postEventEdit(@ModelAttribute @Valid EquipmentEventDTO dto,
-                                BindingResult result){
+    public String postEventEdit(@ModelAttribute("dto") @Valid EquipmentEventDTO dto,
+                                BindingResult result) {
+
+
+        if (result.hasErrors()) {
+            log.info("errors in event.edit form");
+            return "event.edit";
+        }
 
         EquipmentEvent event = eventRepository.findById(dto.getId()).get();
 
