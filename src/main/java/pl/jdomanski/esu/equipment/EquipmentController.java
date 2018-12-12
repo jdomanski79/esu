@@ -37,15 +37,22 @@ public class EquipmentController {
     }
 
     @GetMapping("/")
-    public String equipmentList(Model model) {
+    public String equipmentList(Model model,
+                                @ModelAttribute @RequestParam (name="query", required = false) String query,
+                                @ModelAttribute @RequestParam(name="asset", required = false) boolean asset,
+                                @ModelAttribute @RequestParam(name="toDelete", required = false) boolean toDelete) {
 
         Long lended = equipmentRepository.countByState(EquipmentState.LENDED);
         Long inStock = lended + equipmentRepository.countByState(EquipmentState.IN_STOCK);
 
         model.addAttribute("inStock", inStock);
         model.addAttribute("lended", lended);
-        model.addAttribute("equipments", equipmentRepository.findAll());
-
+        if (query == null) {
+            model.addAttribute("equipments", equipmentRepository.findAll());
+        } else {
+            String queryWithWildcards = "%" + query.toLowerCase() + "%";
+            model.addAttribute("equipments", equipmentRepository.findAllFromQuery(queryWithWildcards, asset, toDelete));
+        }
         return "home";
     }
 
@@ -61,6 +68,8 @@ public class EquipmentController {
         //TODO dodać atrybut "uwagi" - zbudować string z eventu np. Z: Ruda Śl, dostarczył: Ł. Flasza, poprz. nr: blabla
         return "equipment.view";
     }
+
+
 
     @GetMapping("/equipment/edit")
     public String getEquipmentForm(@RequestParam(name = "id", required = false, defaultValue = "-1") Long id,
