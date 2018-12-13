@@ -2,28 +2,36 @@
 <html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <meta charset="UTF-8">
+    <!--<meta charset="UTF-8">-->
     <title>sprzet uzywany</title>
-    <link rel="stylesheet" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css">-->
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"-->
+    <!--integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">-->
 </head>
 <body>
 <div class="row" layout:fragment="content">
     <div class="col-sm-12">
         <form class="form-inline">
             <fieldset>
-                <input class="form-control" type="search" name="query" placeholder="Wyszukaj"
-                       th:value="${query}"/>
-                <div class="form-check form-check-inline">
-                    <label for="asset" class="form-check-label">Srodki trwale</label>
-                    <input class="form-check-input" type="checkbox" id="asset" name="asset"
-                           th:checked="${asset}">
+                <legend>Filtruj</legend>
+                <div class="form-row">
+                    <input class="form-control col-md-4" type="search" name="query" placeholder="Wyszukaj"
+                           th:value="${query}"/>
+                    <div class="form-group col-md-8">
+                        <select class="form-control" id="asset" name="asset">
+                            <option value="all">Wszystkie</option>
+                            <option value="st">Tylko srodki trwale</option>
+                            <option value="nn">Tylko niskocenne</option>
+                        </select>
+                        <!--</div>-->
+                        <!--<div class="form-group col-md-4">-->
+                        <select class="form-control" id="toDelete" name="toDelete">
+                            <option value="all">Wszystkie</option>
+                            <option value="toDelete">Tylko do kasacji</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-sm btn-outline-success" type="submit">Szukaj</button>
                 </div>
-                 <div class="form-check form-check-inline">
-                    <label for="toDelete" class="form-check-label">Do kasacji?</label>
-                    <input class="form-check-input" type="checkbox" id="toDelete" name="toDelete"
-                           th:checked="${toDelete}">
-                </div>
-                <button class="btn btn-sm btn-outline-success" type="submit">Szukaj</button>
             </fieldset>
         </form>
         <p th:text="${'Stan: ' + {inStock} + ' pozycji. W tym wypozyczonych: ' + {lended} + '.'}">
@@ -35,8 +43,8 @@
                 <th>Stan</th>
                 <th>Numer</th>
                 <th>Nazwa</th>
-                <th>Srodek trwaly?</th>
-                <th>Do kasacji?</th>
+                <th>ST</th>
+                <th>Kasacja</th>
             </tr>
             </thead>
             <tbody>
@@ -45,8 +53,8 @@
                 <td th:text="*{state.stateDescription}">Stan</td>
                 <td th:text="*{inventoryNumber}">Numer inwentarzowy</td>
                 <td th:text="*{name}">Nazwa</td>
-                <td th:text="*{asset}">Srodek trwaly</td>
-                <td th:text="*{toDelete}">Do kasacji?</td>
+                <td><i th:if="*{asset}" class="fas fa-check"></i></td>
+                <td><i th:if="*{toDelete}" class="fas fa-check"></i></td>
             </tr>
             </tbody>
         </table>
