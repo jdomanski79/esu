@@ -50,7 +50,12 @@
             <tbody>
             <tr th:each="equip : ${equipments}" th:object="${equip}"
                 th:onclick="'window.location.href=\'/equipment?id=' + ${equip.id} + '\';'">
-                <td th:text="*{state.stateDescription}">Stan</td>
+                <td th:switch="*{state}">
+                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).IN_STOCK}" class="fas fa-check"></i>
+                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).TRANSFERED}" class="fas fa-backward"></i>
+                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).LENDED}" class="fas fa-user-check"></i>
+                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).DELETED}" class="fas fa-times"></i>
+                </td>
                 <td th:text="*{inventoryNumber}">Numer inwentarzowy</td>
                 <td th:text="*{name}">Nazwa</td>
                 <td><i th:if="*{asset}" class="fas fa-check"></i></td>
