@@ -19,7 +19,6 @@ public class EquipmentDTO {
     private String serialNumber;
     private boolean asset;
     private boolean toDelete;
-
     private String note;
 
     public void setName(String name) {
@@ -45,5 +44,6 @@ public class EquipmentDTO {
         this.serialNumber = equipment.getSerialNumber();
         this.asset = equipment.isAsset();
         this.toDelete = equipment.isToDelete();
+        this.note = equipment.getNote();
     }
 }
