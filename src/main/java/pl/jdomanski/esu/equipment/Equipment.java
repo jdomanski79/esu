@@ -34,6 +34,6 @@ public class Equipment {
     private List<EquipmentEvent> history;
 
     public Equipment(){
-        log.info("New equipment constructed");
+        log.debug("New equipment constructed");
     }
 }
