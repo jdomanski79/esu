@@ -16,7 +16,7 @@
         <a href="/" class="navbar-brand">esu</a>
         <hr>
         <div class="navbar nav">
-
+            <span class="navbar-text" th:text="'S: ' + ${equipmentsInStock} + '(' + ${equipmentsLent} +')'">Stan</span>
             <a class="nav-item nav-link" href="/equipment/edit">Dodaj</a>
             <a class="nav-item nav-link" href="/logout">Wyloguj</a>
         </div>
