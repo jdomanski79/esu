@@ -26,6 +26,11 @@
                 <dd class="col-sm-10 h3" th:text="*{serialNumber}">3434jk43j</dd>
             </th:block>
 
+            <th:block th:if="*{note}">
+                <dt class="col-sm-2">Uwagi</dt>
+                <dd class="col-sm-10 h3" th:text="*{note}">3434jk43j</dd>
+            </th:block>
+
             <dt class="col-sm-2">Stan</dt>
             <dd class="col-sm-10 h3" th:text="*{state.stateDescription}">Na stanie</dd>
         </dl>

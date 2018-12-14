@@ -112,6 +112,7 @@ public class EquipmentController {
         equipment.setSerialNumber(dto.getSerialNumber());
         equipment.setAsset(dto.isAsset());
         equipment.setToDelete(dto.isToDelete());
+        equipment.setNote(dto.getEquipmentNote());
 
         User user = (User) authentication.getPrincipal();
         equipment.setCreatedBy(user);
@@ -128,7 +129,7 @@ public class EquipmentController {
 
         event.setEquipmentWithEquipmentState(equipment);
         event.setDate(equipment.getCreated());
-        event.setNote(dto.getNote());
+        event.setNote(dto.getEventNote());
         event.setEnteredBy(user);
 
         equipmentEventRepository.save(event);

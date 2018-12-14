@@ -19,7 +19,8 @@ public class EquipmentDTO {
     private String serialNumber;
     private boolean asset;
     private boolean toDelete;
-    private String note;
+    private String equipmentNote;
+    private String eventNote;
 
     public void setName(String name) {
         this.name = name.trim();
@@ -33,10 +34,6 @@ public class EquipmentDTO {
         this.serialNumber = serialNumber.trim();
     }
 
-    public void setNote(String note) {
-        this.note = note.trim();
-    }
-
     public void copyPropertiesFrom(Equipment equipment) {
         this.date = equipment.getCreated();
         this.name = equipment.getName();
@@ -44,6 +41,6 @@ public class EquipmentDTO {
         this.serialNumber = equipment.getSerialNumber();
         this.asset = equipment.isAsset();
         this.toDelete = equipment.isToDelete();
-        this.note = equipment.getNote();
+        this.equipmentNote = equipment.getNote();
     }
 }
