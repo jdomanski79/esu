@@ -72,7 +72,7 @@ equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).LENDED}">
                 <th>Data</th>
                 <th>Zdarzenie</th>
                 <th>Dok</th>
-                <th>Wprowadził</th>
+                <th>Wpr</th>
                 <th></th>
             </tr>
             </thead>
@@ -86,7 +86,7 @@ equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).LENDED}">
                 </td>
                 <td th:text="${event.document}"></td>
                 <td th:text="${event.enteredBy.name}" class="text-center">Domański</td>
-                <td><a th:href="@{/event(id=${event.id})}" class="btn btn-sm btn-primary">Edytuj</a></td>
+                <td><a th:href="@{/event(id=${event.id})}"><i class="fas fa-edit"></i></a></td>
             </tr>
             </tbody>
         </table>

@@ -17,9 +17,8 @@ public interface EquipmentRepository extends CrudRepository<Equipment, Long> {
             + "lower(e.inventoryNumber) like ?1 or "
             + "lower(e.name) like ?1 or "
             + "lower(e.serialNumber) like ?1)" +
-            " and " +
-            "(?2 is null or e.asset = ?2)" +
-            "and " +
-            "(?3 is null or e.toDelete= ?3)")
-    Collection<Equipment> findAllFromQuery(String query, boolean asset, boolean toDelete);
+            " and (?2 is null or e.state = ?2)" +
+            " and (?3 is null or e.asset = ?3)" +
+            " and (?4 is null or e.toDelete= ?4)")
+    Collection<Equipment> findAllFromQuery(String query, int state, Boolean asset, Boolean toDelete);
 }

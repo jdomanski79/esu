@@ -16,6 +16,8 @@ import pl.jdomanski.esu.equipmentEvent.EquipmentState;
 import pl.jdomanski.esu.user.User;
 
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -30,29 +32,62 @@ public class EquipmentController {
         this.equipmentEventRepository = equipmentEventRepository;
     }
 
-
     @ModelAttribute
-    public void addStatesToModel(Model model) {
-        model.addAttribute("states", EquipmentState.values());
+    public void addAttributes(Model model) {
+
+        Long equipmentsLent = equipmentRepository.countByState(EquipmentState.LENDED);
+        Long equipmentsInStock = equipmentsLent + equipmentRepository.countByState(EquipmentState.IN_STOCK);
+
+        model.addAttribute("equipmentsLent", equipmentsLent);
+        model.addAttribute("equipmentsInStock", equipmentsInStock);
     }
 
     @GetMapping("/")
     public String equipmentList(Model model,
-                                @ModelAttribute @RequestParam (name="query", required = false) String query,
-                                @ModelAttribute @RequestParam(name="asset", required = false) boolean asset,
-                                @ModelAttribute @RequestParam(name="toDelete", required = false) boolean toDelete) {
+                                @RequestParam(name = "query", required = false, defaultValue = "") String query,
+                                @RequestParam(name = "state", required = false, defaultValue = "0") Integer state,
+                                @RequestParam(name = "attribs", required = false, defaultValue = "all") String attribs) {
 
-        Long lended = equipmentRepository.countByState(EquipmentState.LENDED);
-        Long inStock = lended + equipmentRepository.countByState(EquipmentState.IN_STOCK);
 
-        model.addAttribute("inStock", inStock);
-        model.addAttribute("lended", lended);
-        if (query == null) {
-            model.addAttribute("equipments", equipmentRepository.findAll());
-        } else {
-            String queryWithWildcards = "%" + query.toLowerCase() + "%";
-            model.addAttribute("equipments", equipmentRepository.findAllFromQuery(queryWithWildcards, asset, toDelete));
+        model.addAttribute("state", state);
+        model.addAttribute("attribs", attribs);
+        model.addAttribute("states", EquipmentState.values());
+        model.addAttribute("query", query);
+
+//        log.debug("request params: query{}"dd, );
+
+        Boolean asset = null;
+        Boolean toDelete = null;
+        switch (attribs) {
+            case "all":
+                break;
+            case "st":
+                asset = true;
+                break;
+            case "nn":
+                asset = false;
+                break;
+            case "all_toDelete":
+                toDelete = true;
+                break;
+            case "st_toDelete":
+                asset = true;
+                toDelete = true;
+                break;
+            case "nn_toDelete":
+                asset = false;
+                toDelete = true;
+                break;
         }
+        log.info("Model is {}", model);
+
+        query = "%" + query + "%";
+        if (state < 0){
+            state = null;
+        }
+        Collection<Equipment> equipments = equipmentRepository.findAllFromQuery(query, state, asset, toDelete);
+        log.info("Query: {}, result: {}", query, equipments);
+        model.addAttribute("equipments", equipments);
         return "home";
     }
 
@@ -65,10 +100,8 @@ public class EquipmentController {
         log.info("getEquipmentDetails for id {}", id);
         model.addAttribute("equipment", equipment);
 
-        //TODO dodać atrybut "uwagi" - zbudować string z eventu np. Z: Ruda Śl, dostarczył: Ł. Flasza, poprz. nr: blabla
         return "equipment.view";
     }
-
 
 
     @GetMapping("/equipment/edit")
@@ -78,7 +111,7 @@ public class EquipmentController {
         Optional optionalEquipment = equipmentRepository.findById(id);
         EquipmentDTO dto = new EquipmentDTO();
 
-        if(optionalEquipment.isPresent()){
+        if (optionalEquipment.isPresent()) {
             Equipment equipment = (Equipment) optionalEquipment.get();
             dto.copyPropertiesFrom(equipment);
         }
@@ -100,7 +133,7 @@ public class EquipmentController {
         Equipment equipment;
         Optional optionalEquipment = equipmentRepository.findById(id);
 
-        if (optionalEquipment.isPresent()){
+        if (optionalEquipment.isPresent()) {
             equipment = (Equipment) optionalEquipment.get();
         } else {
             equipment = new Equipment();
@@ -119,7 +152,7 @@ public class EquipmentController {
 
         equipmentRepository.save(equipment);
 
-        if (optionalEquipment.isPresent()){
+        if (optionalEquipment.isPresent()) {
             log.info("Edited equipment - redirecting");
             return "redirect:/";
         }
