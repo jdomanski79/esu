@@ -22,7 +22,6 @@ public class Equipment {
     private boolean toDelete;
     private boolean asset;
     private String note;
-    private LocalDate created = LocalDate.now();
     @ManyToOne
     @JoinColumn(name="created_by")
     private User createdBy;
