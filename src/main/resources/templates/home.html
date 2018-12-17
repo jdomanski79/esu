@@ -11,20 +11,24 @@
 <body>
 <div class="row" layout:fragment="content">
     <div class="col-sm-12">
-        <form class="form-inline">
+        <form class="">
             <fieldset>
                 <legend>Filtruj</legend>
                 <div class="form-row">
-                    <input class="form-control col-md-4" type="search" name="query" placeholder="Wyszukaj"
-                           th:value="${query}"/>
-                    <div class="form-group col-md-8">
+                    <div class="form-group col-md-4">
+                        <input class="form-control" type="search" name="query" placeholder="Wyszukaj"
+                               th:value="${query}"/>
+                    </div>
+
+                    <div class="form-group col-md-4">
                         <select class="form-control" id="state" name="state">
                             <option value="-1" th:selected="${state == '-1'}">Wszystkie</option>
                             <option th:each="s: ${states}" th:value="${s.ordinal()}"
                                     th:selected="${s.ordinal() == state}"
                                     th:text="${s.stateDescription}"></option>
                         </select>
-
+                    </div>
+                    <div class="form group col-md-4">
                         <select class="form-control" id="attribs" name="attribs">
                             <option value="all" th:selected="${attribs == 'all'}">Wszystkie</option>
                             <option value="st" th:selected="${attribs == 'st'}">Tylko ST</option>
@@ -33,12 +37,13 @@
                             <option value="st_toDelete" th:selected="${attribs == 'st_toDelete'}">ST do kasacji</option>
                             <option value="nn_toDelete" th:selected="${attribs == 'nn_toDelete'}">NN do kasacji</option>
                         </select>
-                        <!--</div>-->
-                        <!--<div class="form-group col-md-4">-->
-                        <div>
-                        </div>
-                        <button class="btn btn-sm btn-outline-success" type="submit">Szukaj</button>
                     </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-xs-12">
+                        <button class="btn btn-sm btn-success" type="submit">Szukaj</button>
+                    </div>
+                </div>
             </fieldset>
         </form>
         <table class="table table-bordered table-striped table-hover table-responsive-md">
@@ -48,24 +53,24 @@
                 <th>Numer</th>
                 <th>Nazwa</th>
                 <th>ST</th>
-                <th>Kasacja</th>
+                <th>Kas</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="equip : ${equipments}" th:object="${equip}"
                 th:onclick="'window.location.href=\'/equipment?id=' + ${equip.id} + '\';'">
                 <td th:switch="*{state}">
-                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).IN_STOCK}" class="fas fa-check"></i>
+                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).IN_STOCK}" class="fas fa-check text-center"></i>
                     <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).TRANSFERED}"
-                       class="fas fa-backward"></i>
+                       class="fas fa-backward text-center"></i>
                     <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).LENDED}"
-                       class="fas fa-user-check"></i>
-                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).DELETED}" class="fas fa-times"></i>
+                       class="fas fa-user-check text-center"></i>
+                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).DELETED}" class="fas fa-times text-center"></i>
                 </td>
                 <td th:text="*{inventoryNumber}">Numer inwentarzowy</td>
                 <td th:text="*{name}">Nazwa</td>
-                <td><i th:if="*{asset}" class="fas fa-check"></i></td>
-                <td><i th:if="*{toDelete}" class="fas fa-check"></i></td>
+                <td><i th:if="*{asset}" class="fas fa-check text-center"></i></td>
+                <td><i th:if="*{toDelete}" class="fas fa-check text-center"></i></td>
             </tr>
             </tbody>
         </table>
