@@ -20,5 +20,5 @@ public interface EquipmentRepository extends CrudRepository<Equipment, Long> {
             " and (?2 is null or e.state = ?2)" +
             " and (?3 is null or e.asset = ?3)" +
             " and (?4 is null or e.toDelete= ?4)")
-    Collection<Equipment> findAllFromQuery(String query, int state, Boolean asset, Boolean toDelete);
+    Collection<Equipment> findAllFromQuery(String query, Integer state, Boolean asset, Boolean toDelete);
 }

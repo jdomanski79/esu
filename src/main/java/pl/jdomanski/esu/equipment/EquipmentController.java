@@ -81,12 +81,12 @@ public class EquipmentController {
         }
         log.info("Model is {}", model);
 
+        log.info("State is {}", state);
         query = "%" + query + "%";
         if (state < 0){
             state = null;
         }
         Collection<Equipment> equipments = equipmentRepository.findAllFromQuery(query, state, asset, toDelete);
-        log.info("Query: {}, result: {}", query, equipments);
         model.addAttribute("equipments", equipments);
         return "home";
     }
