@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class EquipmentDTO {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date = LocalDate.now();
+    private LocalDate receptionDate = LocalDate.now();
     private String name;
     @NotNull
     private String inventoryNumber;
@@ -21,6 +21,7 @@ public class EquipmentDTO {
     private boolean toDelete;
     private String equipmentNote;
     private String eventNote;
+    private boolean warningNotDisplayed = false;
 
     public void setName(String name) {
         this.name = name.trim();
@@ -35,7 +36,6 @@ public class EquipmentDTO {
     }
 
     public void copyPropertiesFrom(Equipment equipment) {
-        this.date = equipment.getCreated();
         this.name = equipment.getName();
         this.inventoryNumber = equipment.getInventoryNumber();
         this.serialNumber = equipment.getSerialNumber();
