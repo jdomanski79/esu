@@ -110,13 +110,16 @@ public class EquipmentController {
 
         Optional optionalEquipment = equipmentRepository.findById(id);
         EquipmentDTO dto = new EquipmentDTO();
+        boolean newEquipmentMode = true;
 
         if (optionalEquipment.isPresent()) {
             Equipment equipment = (Equipment) optionalEquipment.get();
             dto.copyPropertiesFrom(equipment);
+            newEquipmentMode = false;
         }
 
         model.addAttribute("dto", dto);
+        model.addAttribute("newEquipmentMode", newEquipmentMode);
         return "equipment.form";
     }
 
@@ -145,6 +148,7 @@ public class EquipmentController {
         } else {
             equipment = new Equipment();
         }
+
 
         equipment.setName(dto.getName());
         equipment.setInventoryNumber(dto.getInventoryNumber());
