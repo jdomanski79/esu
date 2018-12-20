@@ -133,7 +133,7 @@ public class EquipmentController {
             return "equipment.form";
         }
 
-        if (!dto.isDisplayWarning()) {
+        if (id < 0 && !dto.isDisplayWarning()) {
             if (equipmentRepository.findByInventoryNumber(dto.getInventoryNumber()) != null){
                 dto.setDisplayWarning(true);
                 return "equipment.form";
@@ -150,21 +150,14 @@ public class EquipmentController {
         }
 
 
-        equipment.setName(dto.getName());
-        equipment.setInventoryNumber(dto.getInventoryNumber());
-        equipment.setSerialNumber(dto.getSerialNumber());
-        equipment.setAsset(dto.isAsset());
-        equipment.setToDelete(dto.isToDelete());
-        equipment.setNote(dto.getEquipmentNote());
-
         User user = (User) authentication.getPrincipal();
-        equipment.setCreatedBy(user);
+        setEquipment(equipment, dto, user);
 
         equipmentRepository.save(equipment);
 
         if (optionalEquipment.isPresent()) {
             log.info("Edited equipment - redirecting");
-            return "redirect:/";
+            return "redirect:/equipment?id=" + id ;
         }
 
         log.info("Saved new equipment {}", equipment);
@@ -180,7 +173,19 @@ public class EquipmentController {
         log.info("Saved new event {}", event);
         log.info("Equipment after saving event {}", equipment);
 
-        return "redirect:/";
+        return "redirect:/equipment?id="+id;
+    }
+
+    private void setEquipment(Equipment equipment, EquipmentDTO dto,
+                              User user) {
+        equipment.setName(dto.getName());
+        equipment.setInventoryNumber(dto.getInventoryNumber());
+        equipment.setSerialNumber(dto.getSerialNumber());
+        equipment.setAsset(dto.isAsset());
+        equipment.setToDelete(dto.isToDelete());
+        equipment.setNote(dto.getEquipmentNote());
+
+        equipment.setCreatedBy(user);
     }
 
     @GetMapping("/equipment/newevent")
