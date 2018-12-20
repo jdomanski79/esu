@@ -21,7 +21,8 @@ public class EquipmentDTO {
     private boolean toDelete;
     private String equipmentNote;
     private String eventNote;
-    private boolean warningNotDisplayed = false;
+    private String warningMessage = "Sprzet o takim ID juz wprowadzony - kontynuowac?";
+    private boolean displayWarning = false;
 
     public void setName(String name) {
         this.name = name.trim();

@@ -12,8 +12,9 @@
 <body>
 <div class="container shadow-lg p-3 mb-5 rounded">
     <!--HEADER-->
-    <nav class="col navbar">
-        <a href="/" class="navbar-brand">esu</a>
+    <nav class="row navbar">
+        <a href="/" class="navbar-brand">esu<span style="font-size: 0.5em" th:text="${@environment.getProperty('esu.mode')}"></span>
+        </a>
         <hr>
         <div class="navbar nav">
             <span class="navbar-text" th:text="'S: ' + ${equipmentsInStock} + '(' + ${equipmentsLent} +')'">Stan</span>

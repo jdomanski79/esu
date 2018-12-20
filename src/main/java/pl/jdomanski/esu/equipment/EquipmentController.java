@@ -83,7 +83,7 @@ public class EquipmentController {
 
         log.info("State is {}", state);
         query = "%" + query + "%";
-        if (state < 0){
+        if (state < 0) {
             state = null;
         }
         Collection<Equipment> equipments = equipmentRepository.findAllFromQuery(query, state, asset, toDelete);
@@ -130,6 +130,13 @@ public class EquipmentController {
             return "equipment.form";
         }
 
+        if (!dto.isDisplayWarning()) {
+            if (equipmentRepository.findByInventoryNumber(dto.getInventoryNumber()) != null){
+                dto.setDisplayWarning(true);
+                return "equipment.form";
+            }
+        }
+
         Equipment equipment;
         Optional optionalEquipment = equipmentRepository.findById(id);
 
@@ -139,7 +146,6 @@ public class EquipmentController {
             equipment = new Equipment();
         }
 
-        equipment.setCreated(dto.getDate());
         equipment.setName(dto.getName());
         equipment.setInventoryNumber(dto.getInventoryNumber());
         equipment.setSerialNumber(dto.getSerialNumber());
@@ -156,12 +162,13 @@ public class EquipmentController {
             log.info("Edited equipment - redirecting");
             return "redirect:/";
         }
+
         log.info("Saved new equipment {}", equipment);
 
         EquipmentEvent event = new EquipmentEvent();
 
         event.setEquipmentWithEquipmentState(equipment);
-        event.setDate(equipment.getCreated());
+        event.setDate(dto.getReceptionDate());
         event.setNote(dto.getEventNote());
         event.setEnteredBy(user);
 
