@@ -15,31 +15,33 @@ import pl.jdomanski.esu.model.EquipmentDTO;
 import pl.jdomanski.esu.model.EquipmentEvent;
 import pl.jdomanski.esu.model.EquipmentState;
 import pl.jdomanski.esu.repositories.EquipmentEventRepository;
-import pl.jdomanski.esu.repositories.EquipmentRepository;
+import pl.jdomanski.esu.services.EquipmentEventService;
+import pl.jdomanski.esu.services.EquipmentService;
 import pl.jdomanski.esu.user.User;
 
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
 @Slf4j
 public class EquipmentController {
 
-    private final EquipmentRepository equipmentRepository;
     private final EquipmentEventRepository equipmentEventRepository;
+    //private final EquipmentEventService equipmentEventService;
+    private final EquipmentService equipmentService;
 
-    public EquipmentController(EquipmentRepository equipmentRepository, EquipmentEventRepository equipmentEventRepository) {
-        this.equipmentRepository = equipmentRepository;
+    public EquipmentController(EquipmentService equipmentService, 
+    		EquipmentEventRepository equipmentEventRepository) {
+        this.equipmentService = equipmentService;
         this.equipmentEventRepository = equipmentEventRepository;
     }
 
     @ModelAttribute
     public void addAttributes(Model model) {
 
-        Long equipmentsLent = equipmentRepository.countByState(EquipmentState.LENDED);
-        Long equipmentsInStock = equipmentsLent + equipmentRepository.countByState(EquipmentState.IN_STOCK);
+        Long equipmentsLent = equipmentService.countByState(EquipmentState.LENDED);
+        Long equipmentsInStock = equipmentsLent + equipmentService.countByState(EquipmentState.IN_STOCK);
 
         model.addAttribute("equipmentsLent", equipmentsLent);
         model.addAttribute("equipmentsInStock", equipmentsInStock);
@@ -89,7 +91,7 @@ public class EquipmentController {
         if (state < 0) {
             state = null;
         }
-        Collection<Equipment> equipments = equipmentRepository.findAllFromQuery(query, state, asset, toDelete);
+        Collection<Equipment> equipments = equipmentService.findAllFromQuery(query, state, asset, toDelete);
         model.addAttribute("equipments", equipments);
         return "home";
     }
@@ -98,7 +100,7 @@ public class EquipmentController {
     public String getEquipmentDetails(Model model,
                                       @RequestParam(value = "id") Long id) {
 
-        Equipment equipment = equipmentRepository.findById(id).get();
+        Equipment equipment = equipmentService.findById(id).get();
 
         log.info("getEquipmentDetails for id {}", id);
         model.addAttribute("equipment", equipment);
@@ -111,7 +113,7 @@ public class EquipmentController {
     public String getEquipmentForm(@RequestParam(name = "id", required = false, defaultValue = "-1") Long id,
                                    Model model) {
 
-        Optional optionalEquipment = equipmentRepository.findById(id);
+        Optional optionalEquipment = equipmentService.findById(id);
         EquipmentDTO dto = new EquipmentDTO();
         boolean newEquipmentMode = true;
 
@@ -137,14 +139,14 @@ public class EquipmentController {
         }
 
         if (id < 0 && !dto.isDisplayWarning()) {
-            if (equipmentRepository.findByInventoryNumber(dto.getInventoryNumber()) != null){
+            if (equipmentService.findByInventoryNumber(dto.getInventoryNumber()) != null){
                 dto.setDisplayWarning(true);
                 return "equipment.form";
             }
         }
 
         Equipment equipment;
-        Optional optionalEquipment = equipmentRepository.findById(id);
+        Optional optionalEquipment = equipmentService.findById(id);
 
         if (optionalEquipment.isPresent()) {
             equipment = (Equipment) optionalEquipment.get();
@@ -156,7 +158,7 @@ public class EquipmentController {
         User user = (User) authentication.getPrincipal();
         setEquipment(equipment, dto, user);
 
-        equipmentRepository.save(equipment);
+        equipmentService.save(equipment);
 
         if (optionalEquipment.isPresent()) {
             log.info("Edited equipment - redirecting");
@@ -199,7 +201,7 @@ public class EquipmentController {
         EquipmentEvent event = new EquipmentEvent();
         event.setEquipmentState(action);
 
-        Equipment equipment = equipmentRepository.findById(id).get();
+        Equipment equipment = equipmentService.findById(id).get();
 
         model.addAttribute("equipment", equipment);
         model.addAttribute("event", event);
@@ -216,10 +218,10 @@ public class EquipmentController {
                                @RequestParam(value = "action") EquipmentState action,
                                Authentication authentication) {
 
-        Equipment equipment = equipmentRepository.findById(id).get();
+        Equipment equipment = equipmentService.findById(id).get();
         equipment.setState(action);
 
-        equipmentRepository.save(equipment);
+        equipmentService.save(equipment);
 
         event.setEquipmentWithEquipmentState(equipment);
 
