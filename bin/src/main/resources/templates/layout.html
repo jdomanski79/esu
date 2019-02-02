@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">esu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/5.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Permanent+Marker">
+</head>
+<body>
+<div class="container shadow-lg p-3 mb-5 rounded">
+    <!--HEADER-->
+    <nav class="row navbar">
+        <a href="/" class="navbar-brand">esu<span style="font-size: 0.5em" th:text="${@environment.getProperty('esu.mode')}"></span>
+        </a>
+        <hr>
+        <div class="navbar nav">
+            <span class="navbar-text" th:text="'S: ' + ${equipmentsInStock} + '(' + ${equipmentsLent} +')'">Stan</span>
+            <a class="nav-item nav-link" href="/equipment/edit">Dodaj</a>
+            <a class="nav-item nav-link" href="/logout">Wyloguj</a>
+        </div>
+    </nav>
+    <!--HEADER-->
+
+    <main class="row" layout:fragment="content">
+        Main content
+    </main>
+
+    <footer class="row">
+        <div class="col">
+            <p>&copyJD 2018</p>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

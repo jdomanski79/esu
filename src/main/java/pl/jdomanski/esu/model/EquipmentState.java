@@ -1,4 +1,4 @@
-package pl.jdomanski.esu.equipmentEvent;
+package pl.jdomanski.esu.model;
 
 public enum EquipmentState {
     IN_STOCK("Przyjęcie", "Na stanie"),

@@ -60,12 +60,12 @@
             <tr th:each="equip : ${equipments}" th:object="${equip}"
                 th:onclick="'window.location.href=\'/equipment?id=' + ${equip.id} + '\';'">
                 <td th:switch="*{state}">
-                    <i th:case="${T(pl.jdomanski.esu.model.EquipmentState).IN_STOCK}" class="fas fa-check text-center"></i>
-                    <i th:case="${T(pl.jdomanski.esu.model.EquipmentState).TRANSFERED}"
+                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).IN_STOCK}" class="fas fa-check text-center"></i>
+                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).TRANSFERED}"
                        class="fas fa-backward text-center"></i>
-                    <i th:case="${T(pl.jdomanski.esu.model.EquipmentState).LENDED}"
+                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).LENDED}"
                        class="fas fa-user-check text-center"></i>
-                    <i th:case="${T(pl.jdomanski.esu.model.EquipmentState).DELETED}" class="fas fa-times text-center"></i>
+                    <i th:case="${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).DELETED}" class="fas fa-times text-center"></i>
                 </td>
                 <td th:text="*{inventoryNumber}">Numer inwentarzowy</td>
                 <td th:text="*{name}">Nazwa</td>

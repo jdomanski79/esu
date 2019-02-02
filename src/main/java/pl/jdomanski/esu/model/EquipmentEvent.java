@@ -1,8 +1,7 @@
-package pl.jdomanski.esu.equipmentEvent;
+package pl.jdomanski.esu.model;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import pl.jdomanski.esu.equipment.Equipment;
 import pl.jdomanski.esu.user.User;
 
 import javax.persistence.*;

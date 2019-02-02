@@ -41,29 +41,29 @@
                 <p class="col">
                     <a class="btn btn-primary btn-sm" th:href="@{/equipment/edit(id=${equipment.id})}">Edytuj</a>
                 </p>
-                <p class="col" th:if="${equipment.state == T(pl.jdomanski.esu.model.EquipmentState).IN_STOCK or
-                        equipment.state == T(pl.jdomanski.esu.model.EquipmentState).LENDED}">
+                <p class="col" th:if="${equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).IN_STOCK or
+                        equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).LENDED}">
                     <a class="btn btn-primary btn-sm" href="#"
-                       th:href="@{/equipment/newevent(equipmentid=${equipment.id}, action=${T(pl.jdomanski.esu.model.EquipmentState).TRANSFERED})}">
+                       th:href="@{/equipment/newevent(equipmentid=${equipment.id}, action=${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).TRANSFERED})}">
                         Przerzut
                     </a>
                 </p>
-                <p class="col" th:if="${equipment.state == T(pl.jdomanski.esu.model.EquipmentState).IN_STOCK or
-                        equipment.state == T(pl.jdomanski.esu.model.EquipmentState).LENDED}">
+                <p class="col" th:if="${equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).IN_STOCK or
+                        equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).LENDED}">
                     <a class="btn btn-primary btn-sm btn-danger" href="#"
-                       th:href="@{/equipment/newevent(equipmentid=${equipment.id}, action=${T(pl.jdomanski.esu.model.EquipmentState).DELETED})}">
+                       th:href="@{/equipment/newevent(equipmentid=${equipment.id}, action=${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).DELETED})}">
                         Kasacja
                     </a>
                 </p>
-                <p class="col" th:if="*{equipment.state == T(pl.jdomanski.esu.model.EquipmentState).IN_STOCK}">
+                <p class="col" th:if="*{equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).IN_STOCK}">
                     <a class="btn btn-primary btn-sm btn-secondary" href="#"
-                       th:href="@{/equipment/newevent(equipmentid=${equipment.id}, action=${T(pl.jdomanski.esu.model.EquipmentState).LENDED})}">
+                       th:href="@{/equipment/newevent(equipmentid=${equipment.id}, action=${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).LENDED})}">
                         Wypozyczenie
                     </a>
-                <p class="col" th:if="*{equipment.state == T(pl.jdomanski.esu.model.EquipmentState).TRANSFERED or
-equipment.state == T(pl.jdomanski.esu.model.EquipmentState).LENDED}">
+                <p class="col" th:if="*{equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).TRANSFERED or
+equipment.state == T(pl.jdomanski.esu.equipmentEvent.EquipmentState).LENDED}">
                     <a class="btn btn-primary btn-sm btn-primary" href="#"
-                       th:href="@{/equipment/newevent(equipmentid=${equipment.id}, action=${T(pl.jdomanski.esu.model.EquipmentState).IN_STOCK})}">
+                       th:href="@{/equipment/newevent(equipmentid=${equipment.id}, action=${T(pl.jdomanski.esu.equipmentEvent.EquipmentState).IN_STOCK})}">
                         Przyjmij
                     </a>
                 </p>

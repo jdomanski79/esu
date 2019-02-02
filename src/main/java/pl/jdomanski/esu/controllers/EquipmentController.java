@@ -1,4 +1,4 @@
-package pl.jdomanski.esu.equipment;
+package pl.jdomanski.esu.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import pl.jdomanski.esu.EquipmentDTO;
-import pl.jdomanski.esu.equipmentEvent.EquipmentEvent;
-import pl.jdomanski.esu.equipmentEvent.EquipmentEventRepository;
-import pl.jdomanski.esu.equipmentEvent.EquipmentState;
+
+import pl.jdomanski.esu.model.Equipment;
+import pl.jdomanski.esu.model.EquipmentDTO;
+import pl.jdomanski.esu.model.EquipmentEvent;
+import pl.jdomanski.esu.model.EquipmentState;
+import pl.jdomanski.esu.repositories.EquipmentEventRepository;
+import pl.jdomanski.esu.repositories.EquipmentRepository;
 import pl.jdomanski.esu.user.User;
 
 import javax.validation.Valid;

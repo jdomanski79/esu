@@ -1,9 +1,11 @@
-package pl.jdomanski.esu.equipment;
+package pl.jdomanski.esu.repositories;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pl.jdomanski.esu.equipmentEvent.EquipmentState;
+
+import pl.jdomanski.esu.model.Equipment;
+import pl.jdomanski.esu.model.EquipmentState;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,5 +24,5 @@ public interface EquipmentRepository extends CrudRepository<Equipment, Long> {
             " and (?4 is null or e.toDelete= ?4)")
     Collection<Equipment> findAllFromQuery(String query, Integer state, Boolean asset, Boolean toDelete);
 
-    Equipment findByInventoryNumber(String inventoryNumber);
+    Collection<Equipment> findByInventoryNumber(String inventoryNumber);
 }

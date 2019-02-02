@@ -1,8 +1,8 @@
-package pl.jdomanski.esu;
+package pl.jdomanski.esu.model;
 
 import lombok.Data;
+
 import org.springframework.format.annotation.DateTimeFormat;
-import pl.jdomanski.esu.equipment.Equipment;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

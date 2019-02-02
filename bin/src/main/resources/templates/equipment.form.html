@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>nowy sprzet</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-md-center" layout:fragment="content">
+        <div class="col-lg-6 col-sm-12">
+            <h1 >Dane sprzetu:</h1>
+            <h1 th:if="${dto.displayWarning}" th:text="${dto.warningMessage}">Warning message</h1>
+            <form method="post" th:object="${dto}">
+                <input type="hidden" name="displayWarning" th:field="*{displayWarning}">
+
+                <div class="form-group" th:if="${newEquipmentMode}">
+                    <label th:for="date">Data</label>
+                    <input type="date" class="form-control" placeholder="rrrr-mm-dd" th:field="*{receptionDate}">
+                </div>
+
+                <div class="form-group">
+                    <label th:for="name">Nazwa</label>
+                    <input type="text" class="form-control" th:field="*{name}">
+                </div>
+
+                <div class="form-group">
+                    <label for="inventory_number">Numer inwentarzowy</label>
+                    <input type="text" class="form-control" id="inventory_number" name="inventoryNumber"
+                           th:value="*{inventoryNumber}">
+                </div>
+
+                <div class="form-group">
+                    <label for="serial_number">Nr seryjny</label>
+                    <input type="text" class="form-control" id="serial_number" name="serialNumber"
+                           th:value="*{serialNumber}">
+                </div>
+
+                <div class="form-group form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="is_asset" name="asset" th:checked="*{asset}">
+                    <label class="form-check-label" for="is_asset">Srodek trwaly?</label>
+                </div>
+
+                <div class="form-group form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="to_remove" name="toDelete"
+                           th:checked="*{toDelete}">
+                    <label class="form-check-label" for="to_remove"> Do kasacji?</label>
+                </div>
+
+                <div class="form-group">
+                    <label for="equipmentNote">Uwagi dotyczace sprzetu</label>
+                    <input type="text" class="form-control" th:field="*{equipmentNote}">
+                </div>
+
+                <div th:if="${newEquipmentMode}" class="form-group">
+                    <label for="eventNote">Kto? Skad?</label>
+                    <input type="text" class="form-control" th:field="*{eventNote}">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Zapisz</button>
+
+                <ul th:if="${#fields.hasErrors()}">
+                    <li th:each="err: ${#fields.errors()}" th:text="${err}"></li>
+                </ul>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

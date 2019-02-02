@@ -1,4 +1,4 @@
-package pl.jdomanski.esu.equipmentEvent;
+package pl.jdomanski.esu.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import pl.jdomanski.esu.model.EquipmentEvent;
+import pl.jdomanski.esu.model.EquipmentEventDTO;
+import pl.jdomanski.esu.repositories.EquipmentEventRepository;
 import pl.jdomanski.esu.utils.Mappings;
 
 import javax.validation.Valid;
